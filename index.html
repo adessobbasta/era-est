@@ -1,0 +1,374 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!doctype html&gt;</p>
+<p class="p1">&lt;html lang="it"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1">&lt;meta charset="utf-8"&gt;</p>
+<p class="p1">&lt;title&gt;ERA — Est&lt;/title&gt;</p>
+<p class="p1">&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;style&gt;</p>
+<p class="p1">:root{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--bg:#0c0f14;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--panel:#141824;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--panel2:#0f1320;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--line:#2a3150;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--text:#e7e7e7;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--muted:#a0a7bd;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--good:#7ee081;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--bad:#ff6b6b;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>--warn:#ffd166;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">*{box-sizing:border-box}</p>
+<p class="p1">body{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin:0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-family: system-ui,-apple-system,Segoe UI,Roboto;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background:linear-gradient(180deg,#0a0d13,#0c0f14);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>color:var(--text);</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">header{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:14px 16px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-bottom:1px solid var(--line);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background:rgba(10,12,18,.8);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>position:sticky;top:0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>backdrop-filter:blur(8px);</p>
+<p class="p1">}</p>
+<p class="p1">header h1{margin:0;font-size:16px}</p>
+<p class="p1">header .sub{font-size:12px;color:var(--muted)}</p>
+<p class="p2"><br></p>
+<p class="p1">.wrap{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>display:grid;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>grid-template-columns:340px 1fr 340px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>gap:12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>max-width:1200px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin:0 auto;</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">.card{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border:1px solid var(--line);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius:14px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>overflow:hidden;</p>
+<p class="p1">}</p>
+<p class="p1">.card h2{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin:0;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:10px 12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size:13px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-bottom:1px solid var(--line);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background:rgba(255,255,255,.02);</p>
+<p class="p1">}</p>
+<p class="p1">.content{padding:10px 12px}</p>
+<p class="p2"><br></p>
+<p class="p1">label{font-size:12px;color:var(--muted)}</p>
+<p class="p1">input,select,button,textarea{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>width:100%;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:10px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius:10px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border:1px solid var(--line);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background:rgba(0,0,0,.25);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>color:var(--text);</p>
+<p class="p1">}</p>
+<p class="p1">button{cursor:pointer;font-weight:700}</p>
+<p class="p1">button.primary{background:rgba(126,224,129,.12);border-color:rgba(126,224,129,.35)}</p>
+<p class="p1">button.ghost{background:transparent}</p>
+<p class="p1">button.danger{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.35)}</p>
+<p class="p2"><br></p>
+<p class="p1">.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}</p>
+<p class="p1">.row{display:flex;gap:8px}</p>
+<p class="p1">.sep{height:1px;background:var(--line);margin:10px 0}</p>
+<p class="p2"><br></p>
+<p class="p1">.statline{display:flex;gap:8px;flex-wrap:wrap}</p>
+<p class="p1">.stat{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>flex:1;min-width:90px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border:1px solid var(--line);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius:12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background:rgba(0,0,0,.2)</p>
+<p class="p1">}</p>
+<p class="p1">.stat .k{font-size:11px;color:var(--muted)}</p>
+<p class="p1">.stat .v{font-size:18px;font-weight:800}</p>
+<p class="p2"><br></p>
+<p class="p1">.log{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>height:520px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>overflow:auto;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background:rgba(0,0,0,.25);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:10px 12px</p>
+<p class="p1">}</p>
+<p class="p1">.msg{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border:1px solid var(--line);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius:12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>margin-bottom:8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background:rgba(255,255,255,.02)</p>
+<p class="p1">}</p>
+<p class="p1">.msg.good{border-color:rgba(126,224,129,.35)}</p>
+<p class="p1">.msg.bad{border-color:rgba(255,107,107,.35)}</p>
+<p class="p1">.msg.warn{border-color:rgba(255,209,102,.35)}</p>
+<p class="p1">.msg .t{font-size:11px;color:var(--muted);margin-bottom:4px}</p>
+<p class="p2"><br></p>
+<p class="p1">.inv{display:flex;gap:6px;flex-wrap:wrap}</p>
+<p class="p1">.chip{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>padding:6px 8px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border:1px solid var(--line);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>border-radius:12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>font-size:12px;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>background:rgba(0,0,0,.2);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>cursor:pointer</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">@media(max-width:1100px){</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.wrap{grid-template-columns:1fr}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>.log{height:360px}</p>
+<p class="p1">}</p>
+<p class="p1">&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1">&lt;header&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;h1&gt;ERA — EST&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div class="sub"&gt;Confine di roccia e metallo. Praterie immense. Pattuglie stanche. Debiti che restano.&lt;/div&gt;</p>
+<p class="p1">&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="wrap"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- SCHEDA --&gt;</p>
+<p class="p1">&lt;section class="card"&gt;</p>
+<p class="p1">&lt;h2&gt;Personaggio&lt;/h2&gt;</p>
+<p class="p1">&lt;div class="content"&gt;</p>
+<p class="p1">&lt;label&gt;Nome&lt;/label&gt;</p>
+<p class="p1">&lt;input id="name" placeholder="Es. Rein dell'Orlo"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;label&gt;Classe&lt;/label&gt;</p>
+<p class="p1">&lt;select id="clazz"&gt;&lt;/select&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="grid"&gt;</p>
+<p class="p1">&lt;div&gt;&lt;label&gt;FOR&lt;/label&gt;&lt;input id="str" type="number" value="12"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div&gt;&lt;label&gt;DES&lt;/label&gt;&lt;input id="dex" type="number" value="13"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div&gt;&lt;label&gt;COS&lt;/label&gt;&lt;input id="con" type="number" value="12"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div&gt;&lt;label&gt;INT&lt;/label&gt;&lt;input id="int" type="number" value="11"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div&gt;&lt;label&gt;SAG&lt;/label&gt;&lt;input id="wis" type="number" value="11"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div&gt;&lt;label&gt;CAR&lt;/label&gt;&lt;input id="cha" type="number" value="13"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="sep"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="statline"&gt;</p>
+<p class="p1">&lt;div class="stat"&gt;&lt;div class="k"&gt;PF&lt;/div&gt;&lt;div class="v"&gt;&lt;span id="hp"&gt;&lt;/span&gt;/&lt;span id="hpMax"&gt;&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div class="stat"&gt;&lt;div class="k"&gt;CA&lt;/div&gt;&lt;div class="v" id="ac"&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div class="stat"&gt;&lt;div class="k"&gt;Oro&lt;/div&gt;&lt;div class="v" id="gp"&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="sep"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;label&gt;Pressione&lt;/label&gt;</p>
+<p class="p1">&lt;div class="stat"&gt;&lt;div class="v" id="pressure"&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;label&gt;Debiti&lt;/label&gt;</p>
+<p class="p1">&lt;div id="debts" class="inv"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="sep"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;label&gt;Inventario (click per rimuovere)&lt;/label&gt;</p>
+<p class="p1">&lt;div id="inv" class="inv"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="row" style="margin-top:8px"&gt;</p>
+<p class="p1">&lt;input id="invAdd" placeholder="Oggetto"&gt;</p>
+<p class="p1">&lt;button class="ghost" id="invBtn"&gt;+&lt;/button&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="sep"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;button class="danger" id="wipe"&gt;Reset&lt;/button&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p1">&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- LOG --&gt;</p>
+<p class="p1">&lt;section class="card"&gt;</p>
+<p class="p1">&lt;h2&gt;Sessione — Est&lt;/h2&gt;</p>
+<p class="p1">&lt;div class="log" id="log"&gt;&lt;/div&gt;</p>
+<p class="p1">&lt;div class="content"&gt;</p>
+<p class="p1">&lt;div class="grid"&gt;</p>
+<p class="p1">&lt;button class="primary" id="enter"&gt;Entra in taverna&lt;/button&gt;</p>
+<p class="p1">&lt;button class="ghost" id="rumor"&gt;Rumor&lt;/button&gt;</p>
+<p class="p1">&lt;button class="ghost" id="job"&gt;Lavoro&lt;/button&gt;</p>
+<p class="p1">&lt;button class="ghost" id="rest"&gt;Riposa&lt;/button&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p1">&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;!-- SCENA --&gt;</p>
+<p class="p1">&lt;section class="card"&gt;</p>
+<p class="p1">&lt;h2&gt;Scena&lt;/h2&gt;</p>
+<p class="p1">&lt;div class="content"&gt;</p>
+<p class="p1">&lt;div id="sceneText" style="font-size:13px;color:var(--muted)"&gt;Nessuna scena attiva.&lt;/div&gt;</p>
+<p class="p1">&lt;div class="sep"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;div class="grid"&gt;</p>
+<p class="p1">&lt;button class="ghost" id="talk"&gt;Parlare&lt;/button&gt;</p>
+<p class="p1">&lt;button class="ghost" id="sneak"&gt;Ombra&lt;/button&gt;</p>
+<p class="p1">&lt;button class="ghost" id="force"&gt;Forza&lt;/button&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p1">&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;script&gt;</p>
+<p class="p1">/* UTIL */</p>
+<p class="p1">const $=id=&gt;document.getElementById(id);</p>
+<p class="p1">const rnd=(a,b)=&gt;Math.floor(Math.random()*(b-a+1))+a;</p>
+<p class="p1">const pick=a=&gt;a[Math.floor(Math.random()*a.length)];</p>
+<p class="p1">const mod=s=&gt;Math.floor((s-10)/2);</p>
+<p class="p2"><br></p>
+<p class="p1">/* DATA */</p>
+<p class="p1">const CLASSES=[</p>
+<p class="p1"><span class="Apple-converted-space"> </span>{id:"warlock",name:"Warlock/Stregone",hp:8,ac:13,inv:["talismano","candela nera"]},</p>
+<p class="p1"><span class="Apple-converted-space"> </span>{id:"mago",name:"Mago",hp:6,ac:12,inv:["grimorio","gesso"]},</p>
+<p class="p1"><span class="Apple-converted-space"> </span>{id:"ladro",name:"Ladro",hp:8,ac:14,inv:["pugnale","attrezzi da scasso"]},</p>
+<p class="p1"><span class="Apple-converted-space"> </span>{id:"barbaro",name:"Barbaro",hp:12,ac:14,inv:["ascia","pelliccia"]},</p>
+<p class="p1"><span class="Apple-converted-space"> </span>{id:"ek",name:"Eldritch Knight",hp:10,ac:16,inv:["spada","sigillo arcano"]},</p>
+<p class="p1"><span class="Apple-converted-space"> </span>{id:"druido",name:"Druido",hp:8,ac:13,inv:["totem","erbe secche"]}</p>
+<p class="p1">];</p>
+<p class="p2"><br></p>
+<p class="p1">const TAVERNS=[</p>
+<p class="p1"><span class="Apple-converted-space"> </span>"Il Chiodo di Ferro",</p>
+<p class="p1"><span class="Apple-converted-space"> </span>"La Dogana Stanca",</p>
+<p class="p1"><span class="Apple-converted-space"> </span>"Il Picchetto Spezzato"</p>
+<p class="p1">];</p>
+<p class="p2"><br></p>
+<p class="p1">const RUMORS=[</p>
+<p class="p1"><span class="Apple-converted-space"> </span>"Una pattuglia non è tornata. Hanno lasciato solo un elmo pieno di terra rossa.",</p>
+<p class="p1"><span class="Apple-converted-space"> </span>"Il ferro dell’Est si piega se menti vicino.",</p>
+<p class="p1"><span class="Apple-converted-space"> </span>"C’è un culto che non prega: firma."</p>
+<p class="p1">];</p>
+<p class="p2"><br></p>
+<p class="p1">const JOBS=[</p>
+<p class="p1"><span class="Apple-converted-space"> </span>"Scorta un carico oltre il confine. Il carico ascolta.",</p>
+<p class="p1"><span class="Apple-converted-space"> </span>"Recupera un registro della Dogana. Non leggerlo.",</p>
+<p class="p1"><span class="Apple-converted-space"> </span>"Convincere un soldato a dimenticare un nome."</p>
+<p class="p1">];</p>
+<p class="p2"><br></p>
+<p class="p1">/* STATE */</p>
+<p class="p1">let state=JSON.parse(localStorage.getItem("era-est"))||{</p>
+<p class="p1"><span class="Apple-converted-space"> </span>name:"",clazz:"ladro",</p>
+<p class="p1"><span class="Apple-converted-space"> </span>stats:{str:12,dex:13,con:12,int:11,wis:11,cha:13},</p>
+<p class="p1"><span class="Apple-converted-space"> </span>hp:0,hpMax:0,ac:0,gp:12,</p>
+<p class="p1"><span class="Apple-converted-space"> </span>pressure:0,debts:[],inv:[],</p>
+<p class="p1"><span class="Apple-converted-space"> </span>scene:null</p>
+<p class="p1">};</p>
+<p class="p2"><br></p>
+<p class="p1">/* INIT */</p>
+<p class="p1">CLASSES.forEach(c=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space"> </span>let o=document.createElement("option");</p>
+<p class="p1"><span class="Apple-converted-space"> </span>o.value=c.id;o.textContent=c.name;</p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("clazz").appendChild(o);</p>
+<p class="p1">});</p>
+<p class="p1">$("clazz").value=state.clazz;</p>
+<p class="p2"><br></p>
+<p class="p1">/* RENDER */</p>
+<p class="p1">function render(){</p>
+<p class="p1"><span class="Apple-converted-space"> </span>let c=CLASSES.find(x=&gt;x.id===state.clazz);</p>
+<p class="p1"><span class="Apple-converted-space"> </span>state.hpMax=c.hp+mod(state.stats.con);</p>
+<p class="p1"><span class="Apple-converted-space"> </span>state.hp=state.hp||state.hpMax;</p>
+<p class="p1"><span class="Apple-converted-space"> </span>state.ac=c.ac+Math.max(0,mod(state.stats.dex));</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("hp").textContent=state.hp;</p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("hpMax").textContent=state.hpMax;</p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("ac").textContent=state.ac;</p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("gp").textContent=state.gp;</p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("pressure").textContent=state.pressure;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("inv").innerHTML="";</p>
+<p class="p1"><span class="Apple-converted-space"> </span>state.inv.forEach((i,idx)=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>let d=document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">  </span>d.className="chip";d.textContent=i;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>d.onclick=()=&gt;{state.inv.splice(idx,1);save();render();}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>$("inv").appendChild(d);</p>
+<p class="p1"><span class="Apple-converted-space"> </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("debts").innerHTML="";</p>
+<p class="p1"><span class="Apple-converted-space"> </span>state.debts.forEach(d=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>let e=document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">  </span>e.className="chip";e.textContent=d;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>$("debts").appendChild(e);</p>
+<p class="p1"><span class="Apple-converted-space"> </span>});</p>
+<p class="p1">}</p>
+<p class="p1">function log(txt,type=""){</p>
+<p class="p1"><span class="Apple-converted-space"> </span>let d=document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space"> </span>d.className="msg "+type;</p>
+<p class="p1"><span class="Apple-converted-space"> </span>d.innerHTML=`&lt;div class="t"&gt;Est&lt;/div&gt;${txt}`;</p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("log").prepend(d);</p>
+<p class="p1">}</p>
+<p class="p1">function save(){localStorage.setItem("era-est",JSON.stringify(state));}</p>
+<p class="p2"><br></p>
+<p class="p1">/* EVENTS */</p>
+<p class="p1">$("enter").onclick=()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space"> </span>log("Entri nella taverna: "+pick(TAVERNS)+".","warn");</p>
+<p class="p1">};</p>
+<p class="p1">$("rumor").onclick=()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space"> </span>state.scene="rumor";</p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("sceneText").textContent=pick(RUMORS);</p>
+<p class="p1">};</p>
+<p class="p1">$("job").onclick=()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space"> </span>state.scene="job";</p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("sceneText").textContent=pick(JOBS);</p>
+<p class="p1">};</p>
+<p class="p1">$("rest").onclick=()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space"> </span>if(state.gp&lt;6){log("Non puoi permettertelo.","bad");return;}</p>
+<p class="p1"><span class="Apple-converted-space"> </span>state.gp-=6;state.hp=state.hpMax;</p>
+<p class="p1"><span class="Apple-converted-space"> </span>log("Riposi. Nessuno ti fa domande.","good");</p>
+<p class="p1"><span class="Apple-converted-space"> </span>save();render();</p>
+<p class="p1">};</p>
+<p class="p2"><br></p>
+<p class="p1">["talk","sneak","force"].forEach(id=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space"> </span>$(id).onclick=()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(!state.scene)return;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>let roll=rnd(1,20)+mod(state.stats[id==="talk"?"cha":id==="sneak"?"dex":"str"]);</p>
+<p class="p1"><span class="Apple-converted-space">  </span>if(roll&gt;=12){</p>
+<p class="p1"><span class="Apple-converted-space">    </span>state.gp+=rnd(6,14);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>log("Successo ("+roll+"). Qualcosa si muove a tuo favore.","good");</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}else{</p>
+<p class="p1"><span class="Apple-converted-space">    </span>state.pressure++;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>if(Math.random()&lt;0.4)state.debts.push("Un favore dovuto.");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>state.hp=Math.max(0,state.hp-rnd(1,6));</p>
+<p class="p1"><span class="Apple-converted-space">    </span>log("Fallimento ("+roll+"). L’Est se lo ricorderà.","bad");</p>
+<p class="p1"><span class="Apple-converted-space">  </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>state.scene=null;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>$("sceneText").textContent="Nessuna scena attiva.";</p>
+<p class="p1"><span class="Apple-converted-space">  </span>save();render();</p>
+<p class="p1"><span class="Apple-converted-space"> </span>};</p>
+<p class="p1">});</p>
+<p class="p2"><br></p>
+<p class="p1">$("invBtn").onclick=()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space"> </span>let v=$("invAdd").value.trim();</p>
+<p class="p1"><span class="Apple-converted-space"> </span>if(!v)return;</p>
+<p class="p1"><span class="Apple-converted-space"> </span>state.inv.push(v);</p>
+<p class="p1"><span class="Apple-converted-space"> </span>$("invAdd").value="";</p>
+<p class="p1"><span class="Apple-converted-space"> </span>save();render();</p>
+<p class="p1">};</p>
+<p class="p1">$("wipe").onclick=()=&gt;{</p>
+<p class="p1"><span class="Apple-converted-space"> </span>localStorage.removeItem("era-est");</p>
+<p class="p1"><span class="Apple-converted-space"> </span>location.reload();</p>
+<p class="p1">};</p>
+<p class="p2"><br></p>
+<p class="p1">render();</p>
+<p class="p1">log("Sei al confine. Qui nulla è gratis.","warn");</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
