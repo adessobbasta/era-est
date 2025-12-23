@@ -1,0 +1,673 @@
+
+
+<!doctype html>
+
+<html lang="it">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>ERA — Est</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<style>
+
+:root{
+
+  --bg:#0c0f14;
+
+  --panel:#141824;
+
+  --panel2:#0f1320;
+
+  --line:#2a3150;
+
+  --text:#e7e7e7;
+
+  --muted:#a0a7bd;
+
+  --good:#7ee081;
+
+  --bad:#ff6b6b;
+
+  --warn:#ffd166;
+
+}
+
+
+*{box-sizing:border-box}
+
+body{
+
+  margin:0;
+
+  font-family: system-ui,-apple-system,Segoe UI,Roboto;
+
+  background:linear-gradient(180deg,#0a0d13,#0c0f14);
+
+  color:var(--text);
+
+}
+
+
+header{
+
+  padding:14px 16px;
+
+  border-bottom:1px solid var(--line);
+
+  background:rgba(10,12,18,.8);
+
+  position:sticky;top:0;
+
+  backdrop-filter:blur(8px);
+
+}
+
+header h1{margin:0;font-size:16px}
+
+header .sub{font-size:12px;color:var(--muted)}
+
+
+.wrap{
+
+  display:grid;
+
+  grid-template-columns:340px 1fr 340px;
+
+  gap:12px;
+
+  padding:12px;
+
+  max-width:1200px;
+
+  margin:0 auto;
+
+}
+
+
+.card{
+
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01));
+
+  border:1px solid var(--line);
+
+  border-radius:14px;
+
+  overflow:hidden;
+
+}
+
+.card h2{
+
+  margin:0;
+
+  padding:10px 12px;
+
+  font-size:13px;
+
+  border-bottom:1px solid var(--line);
+
+  background:rgba(255,255,255,.02);
+
+}
+
+.content{padding:10px 12px}
+
+
+label{font-size:12px;color:var(--muted)}
+
+input,select,button,textarea{
+
+  width:100%;
+
+  padding:10px;
+
+  border-radius:10px;
+
+  border:1px solid var(--line);
+
+  background:rgba(0,0,0,.25);
+
+  color:var(--text);
+
+}
+
+button{cursor:pointer;font-weight:700}
+
+button.primary{background:rgba(126,224,129,.12);border-color:rgba(126,224,129,.35)}
+
+button.ghost{background:transparent}
+
+button.danger{background:rgba(255,107,107,.12);border-color:rgba(255,107,107,.35)}
+
+
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+.row{display:flex;gap:8px}
+
+.sep{height:1px;background:var(--line);margin:10px 0}
+
+
+.statline{display:flex;gap:8px;flex-wrap:wrap}
+
+.stat{
+
+  flex:1;min-width:90px;
+
+  border:1px solid var(--line);
+
+  border-radius:12px;
+
+  padding:8px;
+
+  background:rgba(0,0,0,.2)
+
+}
+
+.stat .k{font-size:11px;color:var(--muted)}
+
+.stat .v{font-size:18px;font-weight:800}
+
+
+.log{
+
+  height:520px;
+
+  overflow:auto;
+
+  background:rgba(0,0,0,.25);
+
+  padding:10px 12px
+
+}
+
+.msg{
+
+  border:1px solid var(--line);
+
+  border-radius:12px;
+
+  padding:8px;
+
+  margin-bottom:8px;
+
+  background:rgba(255,255,255,.02)
+
+}
+
+.msg.good{border-color:rgba(126,224,129,.35)}
+
+.msg.bad{border-color:rgba(255,107,107,.35)}
+
+.msg.warn{border-color:rgba(255,209,102,.35)}
+
+.msg .t{font-size:11px;color:var(--muted);margin-bottom:4px}
+
+
+.inv{display:flex;gap:6px;flex-wrap:wrap}
+
+.chip{
+
+  padding:6px 8px;
+
+  border:1px solid var(--line);
+
+  border-radius:12px;
+
+  font-size:12px;
+
+  background:rgba(0,0,0,.2);
+
+  cursor:pointer
+
+}
+
+
+@media(max-width:1100px){
+
+  .wrap{grid-template-columns:1fr}
+
+  .log{height:360px}
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<header>
+
+  <h1>ERA — EST</h1>
+
+  <div class="sub">Confine di roccia e metallo. Praterie immense. Pattuglie stanche. Debiti che restano.</div>
+
+</header>
+
+
+<div class="wrap">
+
+
+<!-- SCHEDA -->
+
+<section class="card">
+
+<h2>Personaggio</h2>
+
+<div class="content">
+
+<label>Nome</label>
+
+<input id="name" placeholder="Es. Rein dell'Orlo">
+
+
+<label>Classe</label>
+
+<select id="clazz"></select>
+
+
+<div class="grid">
+
+<div><label>FOR</label><input id="str" type="number" value="12"></div>
+
+<div><label>DES</label><input id="dex" type="number" value="13"></div>
+
+<div><label>COS</label><input id="con" type="number" value="12"></div>
+
+<div><label>INT</label><input id="int" type="number" value="11"></div>
+
+<div><label>SAG</label><input id="wis" type="number" value="11"></div>
+
+<div><label>CAR</label><input id="cha" type="number" value="13"></div>
+
+</div>
+
+
+<div class="sep"></div>
+
+
+<div class="statline">
+
+<div class="stat"><div class="k">PF</div><div class="v"><span id="hp"></span>/<span id="hpMax"></span></div></div>
+
+<div class="stat"><div class="k">CA</div><div class="v" id="ac"></div></div>
+
+<div class="stat"><div class="k">Oro</div><div class="v" id="gp"></div></div>
+
+</div>
+
+
+<div class="sep"></div>
+
+
+<label>Pressione</label>
+
+<div class="stat"><div class="v" id="pressure"></div></div>
+
+
+<label>Debiti</label>
+
+<div id="debts" class="inv"></div>
+
+
+<div class="sep"></div>
+
+
+<label>Inventario (click per rimuovere)</label>
+
+<div id="inv" class="inv"></div>
+
+
+<div class="row" style="margin-top:8px">
+
+<input id="invAdd" placeholder="Oggetto">
+
+<button class="ghost" id="invBtn">+</button>
+
+</div>
+
+
+<div class="sep"></div>
+
+<button class="danger" id="wipe">Reset</button>
+
+</div>
+
+</section>
+
+
+<!-- LOG -->
+
+<section class="card">
+
+<h2>Sessione — Est</h2>
+
+<div class="log" id="log"></div>
+
+<div class="content">
+
+<div class="grid">
+
+<button class="primary" id="enter">Entra in taverna</button>
+
+<button class="ghost" id="rumor">Rumor</button>
+
+<button class="ghost" id="job">Lavoro</button>
+
+<button class="ghost" id="rest">Riposa</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SCENA -->
+
+<section class="card">
+
+<h2>Scena</h2>
+
+<div class="content">
+
+<div id="sceneText" style="font-size:13px;color:var(--muted)">Nessuna scena attiva.</div>
+
+<div class="sep"></div>
+
+
+<div class="grid">
+
+<button class="ghost" id="talk">Parlare</button>
+
+<button class="ghost" id="sneak">Ombra</button>
+
+<button class="ghost" id="force">Forza</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<script>
+
+/* UTIL */
+
+const $=id=>document.getElementById(id);
+
+const rnd=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+const mod=s=>Math.floor((s-10)/2);
+
+
+/* DATA */
+
+const CLASSES=[
+
+ {id:"warlock",name:"Warlock/Stregone",hp:8,ac:13,inv:["talismano","candela nera"]},
+
+ {id:"mago",name:"Mago",hp:6,ac:12,inv:["grimorio","gesso"]},
+
+ {id:"ladro",name:"Ladro",hp:8,ac:14,inv:["pugnale","attrezzi da scasso"]},
+
+ {id:"barbaro",name:"Barbaro",hp:12,ac:14,inv:["ascia","pelliccia"]},
+
+ {id:"ek",name:"Eldritch Knight",hp:10,ac:16,inv:["spada","sigillo arcano"]},
+
+ {id:"druido",name:"Druido",hp:8,ac:13,inv:["totem","erbe secche"]}
+
+];
+
+
+const TAVERNS=[
+
+ "Il Chiodo di Ferro",
+
+ "La Dogana Stanca",
+
+ "Il Picchetto Spezzato"
+
+];
+
+
+const RUMORS=[
+
+ "Una pattuglia non è tornata. Hanno lasciato solo un elmo pieno di terra rossa.",
+
+ "Il ferro dell’Est si piega se menti vicino.",
+
+ "C’è un culto che non prega: firma."
+
+];
+
+
+const JOBS=[
+
+ "Scorta un carico oltre il confine. Il carico ascolta.",
+
+ "Recupera un registro della Dogana. Non leggerlo.",
+
+ "Convincere un soldato a dimenticare un nome."
+
+];
+
+
+/* STATE */
+
+let state=JSON.parse(localStorage.getItem("era-est"))||{
+
+ name:"",clazz:"ladro",
+
+ stats:{str:12,dex:13,con:12,int:11,wis:11,cha:13},
+
+ hp:0,hpMax:0,ac:0,gp:12,
+
+ pressure:0,debts:[],inv:[],
+
+ scene:null
+
+};
+
+
+/* INIT */
+
+CLASSES.forEach(c=>{
+
+ let o=document.createElement("option");
+
+ o.value=c.id;o.textContent=c.name;
+
+ $("clazz").appendChild(o);
+
+});
+
+$("clazz").value=state.clazz;
+
+
+/* RENDER */
+
+function render(){
+
+ let c=CLASSES.find(x=>x.id===state.clazz);
+
+ state.hpMax=c.hp+mod(state.stats.con);
+
+ state.hp=state.hp||state.hpMax;
+
+ state.ac=c.ac+Math.max(0,mod(state.stats.dex));
+
+
+ $("hp").textContent=state.hp;
+
+ $("hpMax").textContent=state.hpMax;
+
+ $("ac").textContent=state.ac;
+
+ $("gp").textContent=state.gp;
+
+ $("pressure").textContent=state.pressure;
+
+
+ $("inv").innerHTML="";
+
+ state.inv.forEach((i,idx)=>{
+
+  let d=document.createElement("div");
+
+  d.className="chip";d.textContent=i;
+
+  d.onclick=()=>{state.inv.splice(idx,1);save();render();}
+
+  $("inv").appendChild(d);
+
+ });
+
+
+ $("debts").innerHTML="";
+
+ state.debts.forEach(d=>{
+
+  let e=document.createElement("div");
+
+  e.className="chip";e.textContent=d;
+
+  $("debts").appendChild(e);
+
+ });
+
+}
+
+function log(txt,type=""){
+
+ let d=document.createElement("div");
+
+ d.className="msg "+type;
+
+ d.innerHTML=`<div class="t">Est</div>${txt}`;
+
+ $("log").prepend(d);
+
+}
+
+function save(){localStorage.setItem("era-est",JSON.stringify(state));}
+
+
+/* EVENTS */
+
+$("enter").onclick=()=>{
+
+ log("Entri nella taverna: "+pick(TAVERNS)+".","warn");
+
+};
+
+$("rumor").onclick=()=>{
+
+ state.scene="rumor";
+
+ $("sceneText").textContent=pick(RUMORS);
+
+};
+
+$("job").onclick=()=>{
+
+ state.scene="job";
+
+ $("sceneText").textContent=pick(JOBS);
+
+};
+
+$("rest").onclick=()=>{
+
+ if(state.gp<6){log("Non puoi permettertelo.","bad");return;}
+
+ state.gp-=6;state.hp=state.hpMax;
+
+ log("Riposi. Nessuno ti fa domande.","good");
+
+ save();render();
+
+};
+
+
+["talk","sneak","force"].forEach(id=>{
+
+ $(id).onclick=()=>{
+
+  if(!state.scene)return;
+
+  let roll=rnd(1,20)+mod(state.stats[id==="talk"?"cha":id==="sneak"?"dex":"str"]);
+
+  if(roll>=12){
+
+    state.gp+=rnd(6,14);
+
+    log("Successo ("+roll+"). Qualcosa si muove a tuo favore.","good");
+
+  }else{
+
+    state.pressure++;
+
+    if(Math.random()<0.4)state.debts.push("Un favore dovuto.");
+
+    state.hp=Math.max(0,state.hp-rnd(1,6));
+
+    log("Fallimento ("+roll+"). L’Est se lo ricorderà.","bad");
+
+  }
+
+  state.scene=null;
+
+  $("sceneText").textContent="Nessuna scena attiva.";
+
+  save();render();
+
+ };
+
+});
+
+
+$("invBtn").onclick=()=>{
+
+ let v=$("invAdd").value.trim();
+
+ if(!v)return;
+
+ state.inv.push(v);
+
+ $("invAdd").value="";
+
+ save();render();
+
+};
+
+$("wipe").onclick=()=>{
+
+ localStorage.removeItem("era-est");
+
+ location.reload();
+
+};
+
+
+render();
+
+log("Sei al confine. Qui nulla è gratis.","warn");
+
+</script>
+
+</body>
+
+</html>
