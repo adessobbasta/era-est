@@ -8,9 +8,9 @@
     :root{
       --bg: #070a10;
       --ink: #e9eefc;
-      --muted: #9aa6c7;
+      --muted:#9aa6c7;
 
-      --line: #263053;
+      --line:#263053;
       --line2:#3a4b84;
 
       --good:#7ee081;
@@ -27,462 +27,529 @@
       --font-pixel: var(--font-ui);
     }
 
-    *{ box-sizing: border-box; }
-    html,body{ height: 100%; }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
     body{
-      margin: 0;
+      margin:0;
       background: radial-gradient(1200px 800px at 50% -20%, #111a3d 0%, var(--bg) 55%, #05070f 100%);
-      color: var(--ink);
-      font-family: var(--font-ui);
-      letter-spacing: .2px;
+      color:var(--ink);
+      font-family:var(--font-ui);
+      letter-spacing:.2px;
     }
 
     body::before{
       content:"";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: repeating-linear-gradient(
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:repeating-linear-gradient(
         to bottom,
         rgba(255,255,255,0.03) 0px,
         rgba(255,255,255,0.03) 1px,
         rgba(0,0,0,0) 2px,
         rgba(0,0,0,0) 4px
       );
-      mix-blend-mode: overlay;
-      opacity: .25;
+      mix-blend-mode:overlay;
+      opacity:.25;
     }
 
     .app{
-      min-height: 100%;
-      display: flex;
-      flex-direction: column;
-      padding: max(10px, env(safe-area-inset-top)) 10px max(12px, env(safe-area-inset-bottom));
-      gap: 10px;
+      min-height:100%;
+      display:flex;
+      flex-direction:column;
+      padding:max(10px, env(safe-area-inset-top)) 10px max(12px, env(safe-area-inset-bottom));
+      gap:10px;
     }
 
     .topbar{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
     }
 
     .brand{
       display:flex;
       align-items:center;
       gap:10px;
-      min-width: 0;
+      min-width:0;
     }
 
     .brand .logo{
-      width: 34px; height: 34px;
-      border-radius: 8px;
-      background: linear-gradient(180deg, #1a2550 0%, #0b1024 100%);
-      border: 2px solid var(--line2);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.5) inset;
-      position: relative;
+      width:34px;height:34px;
+      border-radius:8px;
+      background:linear-gradient(180deg,#1a2550 0%, #0b1024 100%);
+      border:2px solid var(--line2);
+      box-shadow:0 0 0 2px rgba(0,0,0,.5) inset;
+      position:relative;
+      flex:0 0 auto;
     }
     .brand .logo::after{
       content:"";
-      position:absolute; inset: 6px;
-      border: 2px solid var(--accent2);
-      border-radius: 6px;
-      opacity: .9;
+      position:absolute; inset:6px;
+      border:2px solid var(--accent2);
+      border-radius:6px;
+      opacity:.9;
     }
 
     .brand .title{
-      min-width: 0;
+      min-width:0;
       display:flex;
-      flex-direction: column;
-      gap: 2px;
+      flex-direction:column;
+      gap:2px;
     }
     .brand .title .h1{
-      font-family: var(--font-title);
-      font-weight: 800;
-      font-size: 14px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-weight:900;
+      font-size:14px;
+      text-transform:uppercase;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
     .brand .title .sub{
-      font-size: 11px;
-      color: var(--muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-size:11px;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     .top-actions{
       display:flex;
       align-items:center;
-      gap: 8px;
-      flex: 0 0 auto;
+      gap:8px;
+      flex:0 0 auto;
     }
 
     .chip{
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      color: var(--muted);
-      border: 2px solid var(--line);
-      background: rgba(10,16,32,.65);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-      white-space: nowrap;
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:11px;
+      color:var(--muted);
+      border:2px solid var(--line);
+      background:rgba(10,16,32,.65);
+      box-shadow:0 0 0 2px rgba(0,0,0,.35) inset;
+      white-space:nowrap;
     }
 
     .btn{
-      appearance: none;
-      border: 0;
-      background: transparent;
-      color: var(--ink);
-      font: inherit;
-      cursor: pointer;
+      appearance:none;
+      border:0;
+      background:transparent;
+      color:var(--ink);
+      font:inherit;
+      cursor:pointer;
     }
 
     .btn.primary{
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: linear-gradient(180deg, #2b2f6c 0%, #141a3e 100%);
-      border: 2px solid var(--line2);
+      padding:10px 12px;
+      border-radius:10px;
+      background:linear-gradient(180deg,#2b2f6c 0%, #141a3e 100%);
+      border:2px solid var(--line2);
       box-shadow:
         0 2px 0 0 rgba(0,0,0,.6),
         0 0 0 2px rgba(0,0,0,.35) inset;
-      text-transform: uppercase;
-      font-weight: 800;
-      font-size: 12px;
-      letter-spacing: .6px;
+      text-transform:uppercase;
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.6px;
     }
-    .btn.primary:active{ transform: translateY(1px); }
+    .btn.primary:active{ transform:translateY(1px); }
+
+    .btn.mini{
+      padding:8px 10px;
+      border-radius:10px;
+      border:2px solid var(--line);
+      background:rgba(8,12,24,.55);
+      box-shadow:0 0 0 2px rgba(0,0,0,.35) inset;
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      font-weight:900;
+      letter-spacing:.6px;
+    }
+    .btn.mini:active{ transform:translateY(1px); }
 
     .panel{
-      background: linear-gradient(180deg, rgba(22,30,58,.55) 0%, rgba(10,16,32,.75) 100%);
-      border-radius: var(--r);
-      position: relative;
-      padding: 12px;
-      border: 2px solid var(--line2);
-      box-shadow:
-        0 0 0 2px rgba(0,0,0,.55) inset,
-        0 10px 30px rgba(0,0,0,.35);
-      overflow: hidden;
+      background:linear-gradient(180deg, rgba(22,30,58,.55) 0%, rgba(10,16,32,.75) 100%);
+      border-radius:var(--r);
+      position:relative;
+      padding:12px;
+      border:2px solid var(--line2);
+      box-shadow:0 0 0 2px rgba(0,0,0,.55) inset, 0 10px 30px rgba(0,0,0,.35);
+      overflow:hidden;
     }
     .panel::before{
       content:"";
-      position: absolute;
-      inset: 0;
-      border-radius: var(--r);
-      box-shadow:
-        0 2px 0 0 rgba(255,255,255,.08) inset,
-        0 -2px 0 0 rgba(0,0,0,.55) inset;
-      pointer-events: none;
+      position:absolute;
+      inset:0;
+      border-radius:var(--r);
+      box-shadow:0 2px 0 0 rgba(255,255,255,.08) inset, 0 -2px 0 0 rgba(0,0,0,.55) inset;
+      pointer-events:none;
     }
 
     .panel-header{
       display:flex;
       align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
     }
+
     .panel-title{
-      font-family: var(--font-title);
-      font-weight: 900;
-      text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: .8px;
+      font-weight:1000;
+      text-transform:uppercase;
+      font-size:12px;
+      letter-spacing:.8px;
       display:flex;
       align-items:center;
-      gap: 8px;
-      min-width: 0;
-    }
-    .panel-title .tag{
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 2px solid var(--line);
-      background: rgba(8,12,24,.65);
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: .6px;
+      gap:8px;
+      min-width:0;
     }
 
-    .panel-tools{ display:flex; gap: 8px; }
-    .btn.mini{
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(8,12,24,.55);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      font-weight: 800;
-      letter-spacing: .6px;
+    .panel-title .tag{
+      padding:3px 8px;
+      border-radius:999px;
+      border:2px solid var(--line);
+      background:rgba(8,12,24,.65);
+      color:var(--muted);
+      font-size:10px;
+      letter-spacing:.6px;
     }
-    .btn.mini:active{ transform: translateY(1px); }
+
+    .panel-tools{ display:flex; gap:8px; }
 
     .stack{
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1 1 auto;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      flex:1 1 auto;
     }
 
-    @media (min-width: 980px){
+    @media (min-width:980px){
       .stack{
         display:grid;
-        grid-template-columns: 320px 1fr 360px;
-        gap: 12px;
-        align-items: start;
+        grid-template-columns:320px 1fr 360px;
+        gap:12px;
+        align-items:start;
       }
-      .panel.hud { grid-column: 1; }
-      .panel.scene{ grid-column: 2; }
-      .panel.sheet{ grid-column: 3; }
-      .panel.command{ grid-column: 1 / span 3; }
+      .panel.hud { grid-column:1; }
+      .panel.scene{ grid-column:2; }
+      .panel.sheet{ grid-column:3; }
+      .panel.command{ grid-column:1 / span 3; }
+      .panel.pick{ grid-column:1 / span 3; }
     }
 
-    .hud-grid{ display:grid; grid-template-columns: 1fr; gap: 10px; }
-
     .subpanel{
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(6,10,20,.55);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-      padding: 10px;
+      border-radius:10px;
+      border:2px solid var(--line);
+      background:rgba(6,10,20,.55);
+      box-shadow:0 0 0 2px rgba(0,0,0,.35) inset;
+      padding:10px;
     }
     .subhead{
       display:flex;
       align-items:center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      gap: 10px;
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      font-weight: 800;
+      justify-content:space-between;
+      margin-bottom:8px;
+      gap:10px;
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      font-weight:900;
     }
 
     .barrow{
       display:grid;
-      grid-template-columns: 56px 1fr 70px;
-      gap: 10px;
+      grid-template-columns:56px 1fr 70px;
+      gap:10px;
       align-items:center;
-      margin: 8px 0;
+      margin:8px 0;
     }
     .barlabel{
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      font-weight: 800;
-      letter-spacing: .6px;
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      font-weight:900;
+      letter-spacing:.6px;
     }
     .bar{
-      height: 14px;
-      border-radius: 999px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.25);
+      height:14px;
+      border-radius:999px;
+      border:2px solid var(--line);
+      background:rgba(0,0,0,.25);
       overflow:hidden;
-      position: relative;
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
+      position:relative;
+      box-shadow:0 0 0 2px rgba(0,0,0,.35) inset;
     }
     .bar > i{
       display:block;
       height:100%;
-      width: 60%;
-      background: linear-gradient(180deg, rgba(122,92,255,.9) 0%, rgba(0,212,255,.85) 100%);
-      box-shadow: 0 0 18px rgba(0,212,255,.25);
+      width:60%;
+      background:linear-gradient(180deg, rgba(122,92,255,.9) 0%, rgba(0,212,255,.85) 100%);
+      box-shadow:0 0 18px rgba(0,212,255,.25);
     }
     .barval{
-      font-size: 11px;
-      color: var(--ink);
-      font-weight: 900;
+      font-size:11px;
+      color:var(--ink);
+      font-weight:1000;
       text-align:right;
-      white-space: nowrap;
+      white-space:nowrap;
     }
 
     .kv{
       display:grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px 10px;
-      font-size: 12px;
-      align-items: baseline;
+      grid-template-columns:1fr auto;
+      gap:8px 10px;
+      font-size:12px;
+      align-items:baseline;
     }
-    .kv .k{ color: var(--muted); text-transform: uppercase; font-weight: 800; letter-spacing: .6px; font-size: 11px; }
-    .kv .v{ font-weight: 900; }
+    .kv .k{ color:var(--muted); text-transform:uppercase; font-weight:900; letter-spacing:.6px; font-size:11px; }
+    .kv .v{ font-weight:1000; }
+
     .pill{
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.2);
-      font-size: 11px;
-      font-weight: 900;
+      padding:2px 8px;
+      border-radius:999px;
+      border:2px solid var(--line);
+      background:rgba(0,0,0,.2);
+      font-size:11px;
+      font-weight:1000;
       display:inline-flex;
       align-items:center;
-      gap: 6px;
-      white-space: nowrap;
+      gap:6px;
+      white-space:nowrap;
     }
-    .pill.good{ color: var(--good); }
-    .pill.bad{ color: var(--bad); }
-    .pill.warn{ color: var(--warn); }
+    .pill.good{ color:var(--good); }
+    .pill.bad{ color:var(--bad); }
+    .pill.warn{ color:var(--warn); }
 
     .log{
-      font-family: var(--font-pixel);
-      font-size: 14px;
-      line-height: 1.35;
-      letter-spacing: .1px;
+      font-family:var(--font-pixel);
+      font-size:14px;
+      line-height:1.35;
+      letter-spacing:.1px;
     }
     .log .boxline{
-      padding: 10px;
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(6,10,20,.55);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-      margin-bottom: 10px;
-      position: relative;
+      padding:10px;
+      border-radius:10px;
+      border:2px solid var(--line);
+      background:rgba(6,10,20,.55);
+      box-shadow:0 0 0 2px rgba(0,0,0,.35) inset;
+      margin-bottom:10px;
+      position:relative;
       overflow:hidden;
-      white-space: pre-wrap;
+      white-space:pre-wrap;
+      min-height:160px;
     }
     .log .boxline::after{
       content:"";
       position:absolute;
-      inset: -40px -40px auto auto;
-      width: 90px; height: 90px;
-      transform: rotate(25deg);
-      background: radial-gradient(circle at 30% 30%, rgba(122,92,255,.22) 0%, rgba(0,0,0,0) 60%);
+      inset:-40px -40px auto auto;
+      width:90px;height:90px;
+      transform:rotate(25deg);
+      background:radial-gradient(circle at 30% 30%, rgba(122,92,255,.22) 0%, rgba(0,0,0,0) 60%);
       pointer-events:none;
     }
     .prompt{
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 6px;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      font-weight: 800;
+      color:var(--muted);
+      font-size:12px;
+      margin-top:6px;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      font-weight:900;
     }
 
-    .sheet-grid{ display:grid; grid-template-columns: 1fr; gap: 10px; }
+    .sheet-grid{ display:grid; grid-template-columns:1fr; gap:10px; }
     .sheet .big{
-      font-size: 16px;
-      font-weight: 1000;
-      letter-spacing: .4px;
-      text-transform: uppercase;
+      font-size:16px;
+      font-weight:1100;
+      letter-spacing:.4px;
+      text-transform:uppercase;
     }
-    .sheet .small{ color: var(--muted); font-size: 12px; margin-top: 2px; }
+    .sheet .small{ color:var(--muted); font-size:12px; margin-top:2px; }
+
     .stats{
       display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 10px;
+      grid-template-columns:repeat(3,1fr);
+      gap:8px;
+      margin-top:10px;
     }
     .stat{
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(6,10,20,.55);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-      padding: 10px;
+      border-radius:10px;
+      border:2px solid var(--line);
+      background:rgba(6,10,20,.55);
+      box-shadow:0 0 0 2px rgba(0,0,0,.35) inset;
+      padding:10px;
       text-align:center;
     }
     .stat .n{
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      font-weight: 900;
-      letter-spacing: .8px;
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      font-weight:1000;
+      letter-spacing:.8px;
     }
     .stat .v{
-      font-size: 20px;
-      font-weight: 1000;
-      margin-top: 4px;
+      font-size:20px;
+      font-weight:1200;
+      margin-top:4px;
     }
 
-    .list{ display:flex; flex-wrap: wrap; gap: 8px; }
+    .list{ display:flex; flex-wrap:wrap; gap:8px; }
     .token{
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.22);
-      font-size: 12px;
-      font-weight: 900;
-      color: var(--ink);
-      white-space: nowrap;
+      padding:6px 10px;
+      border-radius:999px;
+      border:2px solid var(--line);
+      background:rgba(0,0,0,.22);
+      font-size:12px;
+      font-weight:1000;
+      color:var(--ink);
+      white-space:nowrap;
     }
 
     .tabs{
       display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 10px;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:10px;
     }
     .tab{
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.22);
-      font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 1000;
-      letter-spacing: .8px;
-      color: var(--muted);
+      padding:10px 12px;
+      border-radius:10px;
+      border:2px solid var(--line);
+      background:rgba(0,0,0,.22);
+      font-size:11px;
+      text-transform:uppercase;
+      font-weight:1200;
+      letter-spacing:.8px;
+      color:var(--muted);
     }
     .tab.active{
-      border-color: var(--line2);
-      color: var(--ink);
-      background: linear-gradient(180deg, rgba(43,47,108,.55) 0%, rgba(20,26,62,.55) 100%);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
+      border-color:var(--line2);
+      color:var(--ink);
+      background:linear-gradient(180deg, rgba(43,47,108,.55) 0%, rgba(20,26,62,.55) 100%);
+      box-shadow:0 0 0 2px rgba(0,0,0,.35) inset;
     }
 
     .cmdrow{
       display:grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      align-items:center;
     }
     .input{
-      width: 100%;
-      padding: 12px 12px;
-      border-radius: 10px;
-      border: 2px solid var(--line2);
-      background: rgba(6,10,20,.55);
-      color: var(--ink);
-      font-family: var(--font-pixel);
-      font-size: 14px;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
+      width:100%;
+      padding:12px 12px;
+      border-radius:10px;
+      border:2px solid var(--line2);
+      background:rgba(6,10,20,.55);
+      color:var(--ink);
+      font-family:var(--font-pixel);
+      font-size:14px;
+      outline:none;
+      box-shadow:0 0 0 2px rgba(0,0,0,.35) inset;
     }
-    .input::placeholder{ color: rgba(154,166,199,.75); }
+    .input::placeholder{ color:rgba(154,166,199,.75); }
 
     .quick{
       display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
     }
     .quick .btnq{
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.22);
-      color: var(--ink);
-      font-size: 12px;
-      font-weight: 1000;
-      letter-spacing: .4px;
+      padding:10px 12px;
+      border-radius:10px;
+      border:2px solid var(--line);
+      background:rgba(0,0,0,.22);
+      color:var(--ink);
+      font-size:12px;
+      font-weight:1100;
+      letter-spacing:.4px;
     }
-    .quick .btnq:active{ transform: translateY(1px); }
+    .quick .btnq:active{ transform:translateY(1px); }
+
+    select.sel{
+      width:100%;
+      padding:10px 10px;
+      border-radius:10px;
+      border:2px solid var(--line);
+      background:rgba(0,0,0,.22);
+      color:var(--ink);
+      font-family:var(--font-ui);
+      font-weight:1000;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      font-size:11px;
+      outline:none;
+      box-shadow:0 0 0 2px rgba(0,0,0,.25) inset;
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    @media (min-width:980px){
+      .grid2{ grid-template-columns: 1.1fr .9fr; }
+    }
+
+    .hint{ color:var(--muted); font-size:11px; margin-top:8px; line-height:1.3; }
 
     @keyframes blink { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.4)} }
     @keyframes shake { 0%{transform:translateX(0)} 25%{transform:translateX(-2px)} 50%{transform:translateX(2px)} 75%{transform:translateX(-2px)} 100%{transform:translateX(0)} }
-    .fx-blink{ animation: blink .3s linear 2; }
-    .fx-shake{ animation: shake .22s linear 2; }
+    .fx-blink{ animation:blink .3s linear 2; }
+    .fx-shake{ animation:shake .22s linear 2; }
 
-    .panel.command{ position: sticky; bottom: 10px; }
-    @media (min-width: 980px){ .panel.command{ position: relative; bottom: auto; } }
+    .panel.command{ position:sticky; bottom:10px; }
+    @media (min-width:980px){ .panel.command{ position:relative; bottom:auto; } }
 
-    .hint{ color: var(--muted); font-size: 11px; margin-top: 8px; line-height: 1.3; }
+    /* PICK (character select) */
+    .pick-wrap{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .pick-title{
+      font-size:14px;
+      text-transform:uppercase;
+      font-weight:1200;
+      letter-spacing:.8px;
+    }
+    .pick-sub{
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.35;
+    }
+    .class-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px;
+    }
+    @media (min-width:980px){
+      .class-grid{ grid-template-columns:repeat(6,1fr); }
+    }
+    .class-btn{
+      padding:10px 10px;
+      border-radius:10px;
+      border:2px solid var(--line);
+      background:rgba(0,0,0,.22);
+      color:var(--ink);
+      font-size:11px;
+      text-transform:uppercase;
+      font-weight:1200;
+      letter-spacing:.7px;
+    }
+    .class-btn.active{
+      border-color:var(--accent2);
+      box-shadow:0 0 0 2px rgba(0,0,0,.35) inset, 0 0 22px rgba(0,212,255,.12);
+      background:linear-gradient(180deg, rgba(43,47,108,.55) 0%, rgba(20,26,62,.55) 100%);
+    }
 
     @media (prefers-reduced-motion: reduce){
       body::before{ display:none; }
-      .fx-blink, .fx-shake{ animation: none !important; }
+      .fx-blink, .fx-shake{ animation:none !important; }
     }
   </style>
 </head>
@@ -507,8 +574,66 @@
 
     <div class="stack">
 
+      <!-- CHARACTER PICK -->
+      <section class="panel pick" id="pickPanel" aria-label="Scelta personaggio">
+        <div class="panel-header">
+          <div class="panel-title">Selezione <span class="tag">PG</span></div>
+          <div class="panel-tools">
+            <button class="btn mini" id="btnPickRandom">RANDOM</button>
+            <button class="btn mini" id="btnPickReset">RESET</button>
+          </div>
+        </div>
+
+        <div class="pick-wrap">
+          <div>
+            <div class="pick-title">Scegli chi sei. Poi entri nella taverna.</div>
+            <div class="pick-sub">
+              Non stai “creando una build”. Stai scegliendo un’identità giocabile.
+              Il resto succede dentro la storia.
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="subpanel">
+              <div class="subhead"><span>Dati</span><span class="pill warn" id="pickHint">OBBLIGATORIO</span></div>
+              <div style="display:grid; grid-template-columns:1fr; gap:10px;">
+                <div>
+                  <div class="hint" style="margin:0 0 6px;">Nome PG</div>
+                  <input class="input" id="pickName" placeholder="Es: Rein dell’Orlo" />
+                </div>
+
+                <div>
+                  <div class="hint" style="margin:0 0 6px;">Tratto (una riga)</div>
+                  <input class="input" id="pickTrait" placeholder="Es: “Sorrido quando le cose peggiorano.”" />
+                </div>
+
+                <div>
+                  <div class="hint" style="margin:0 0 6px;">Classe</div>
+                  <div class="class-grid" id="classGrid"></div>
+                </div>
+
+                <button class="btn primary" id="btnStartRun" style="width:100%;">INIZIA RUN</button>
+                <div class="hint">Dopo l’inizio: NEW RUN ti riporta qui per cambiare personaggio.</div>
+              </div>
+            </div>
+
+            <div class="subpanel">
+              <div class="subhead"><span>Preview</span><span class="pill" id="pickClassPill">—</span></div>
+              <div class="kv">
+                <div class="k">Nome</div><div class="v" id="pvName">—</div>
+                <div class="k">Classe</div><div class="v" id="pvClass">—</div>
+                <div class="k">Tratto</div><div class="v" id="pvTrait">—</div>
+              </div>
+              <div class="hint" id="pvStats">Stats: —</div>
+              <div class="hint" id="pvTalents">Talenti: —</div>
+              <div class="hint" id="pvInv">Inventario: —</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- HUD -->
-      <section class="panel hud" aria-label="HUD Arcade">
+      <section class="panel hud" id="hudPanel" aria-label="HUD Arcade" style="display:none;">
         <div class="panel-header">
           <div class="panel-title">HUD <span class="tag">ARCADE</span></div>
           <div class="panel-tools">
@@ -517,77 +642,94 @@
           </div>
         </div>
 
-        <div class="hud-grid">
-
-          <div class="subpanel">
-            <div class="subhead">
-              <span>Risorse</span>
-              <span id="regionPill" class="pill warn">REGION 40%</span>
-            </div>
-
-            <div class="barrow">
-              <div class="barlabel">HP</div>
-              <div class="bar"><i id="barHP"></i></div>
-              <div class="barval" id="hpVal">—</div>
-            </div>
-            <div class="barrow">
-              <div class="barlabel">STA</div>
-              <div class="bar"><i id="barSTA"></i></div>
-              <div class="barval" id="staVal">—</div>
-            </div>
-            <div class="barrow">
-              <div class="barlabel">FATE</div>
-              <div class="bar"><i id="barFATE"></i></div>
-              <div class="barval" id="fateVal">—</div>
-            </div>
+        <div class="subpanel">
+          <div class="subhead">
+            <span>Risorse</span>
+            <span id="regionPill" class="pill warn">REGION 40%</span>
           </div>
 
-          <div class="subpanel" id="rollPanel">
-            <div class="subhead">
-              <span>Last roll</span>
-              <span id="rollResultPill" class="pill warn">—</span>
-            </div>
+          <div class="barrow">
+            <div class="barlabel">HP</div>
+            <div class="bar"><i id="barHP"></i></div>
+            <div class="barval" id="hpVal">—</div>
+          </div>
+          <div class="barrow">
+            <div class="barlabel">STA</div>
+            <div class="bar"><i id="barSTA"></i></div>
+            <div class="barval" id="staVal">—</div>
+          </div>
+          <div class="barrow">
+            <div class="barlabel">FATE</div>
+            <div class="bar"><i id="barFATE"></i></div>
+            <div class="barval" id="fateVal">—</div>
+          </div>
+        </div>
 
-            <div style="display:grid; grid-template-columns: 1fr; gap: 8px; margin-bottom:10px;">
-              <button class="btn primary" id="btnRollA" style="width:100%;">TIRA (A)</button>
-              <button class="btn primary" id="btnRollB" style="width:100%;">TIRA (B)</button>
-              <div class="hint" id="pendingHint" style="margin-top:0;">Nessun tiro richiesto.</div>
-            </div>
-
-            <div class="kv">
-              <div class="k">d20</div><div class="v" id="rollD20">—</div>
-              <div class="k">mod</div><div class="v" id="rollMOD">+0</div>
-              <div class="k">dc</div><div class="v" id="rollDC">—</div>
-              <div class="k">esito</div><div class="v" id="rollOUT">—</div>
-            </div>
+        <div class="subpanel" id="rollPanel" style="margin-top:10px;">
+          <div class="subhead">
+            <span>Last roll</span>
+            <span id="rollResultPill" class="pill warn">—</span>
           </div>
 
-          <div class="subpanel">
-            <div class="subhead"><span>Flags</span><span class="pill warn" id="debtPill">DEBT: —</span></div>
-            <div class="kv">
-              <div class="k">Wanted</div><div class="v" id="flagWanted">—</div>
-              <div class="k">Curse</div><div class="v" id="flagCurse">—</div>
-              <div class="k">Rumors</div><div class="v" id="flagRumors">—</div>
-              <div class="k">Coins</div><div class="v" id="flagCoins">—</div>
-            </div>
-          </div>
-
-          <div class="subpanel">
-            <div class="subhead"><span>Audio</span><span class="pill" id="audioState">TAVERNA</span></div>
-            <div class="kv">
-              <div class="k">Stato</div><div class="v" id="audioOnOff">OFF</div>
-              <div class="k">Vol</div><div class="v">
-                <input id="vol" type="range" min="0" max="100" value="35" style="width:120px; vertical-align:middle;">
+          <div style="display:grid; grid-template-columns: 1fr; gap: 8px; margin-bottom:10px;">
+            <button class="btn primary" id="btnRollA" style="width:100%;">TIRA (A)</button>
+            <button class="btn primary" id="btnRollB" style="width:100%;">TIRA (B)</button>
+            <div class="hint" id="pendingHint" style="margin-top:0;">Nessun tiro richiesto.</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+              <div>
+                <div class="hint" style="margin:0 0 6px;">Override Stat</div>
+                <select class="sel" id="selStat">
+                  <option value="CORPO">CORPO</option>
+                  <option value="MENTE">MENTE</option>
+                  <option value="OMBRA" selected>OMBRA</option>
+                </select>
+              </div>
+              <div>
+                <div class="hint" style="margin:0 0 6px;">Override DC</div>
+                <select class="sel" id="selDC">
+                  <option value="10">10</option>
+                  <option value="12" selected>12</option>
+                  <option value="14">14</option>
+                  <option value="16">16</option>
+                </select>
               </div>
             </div>
-            <div class="hint">Placeholder audio. Poi lo sostituiamo con un loop reale.</div>
+            <button class="btn mini" id="btnRollOverride" style="width:100%;">TIRA (OVERRIDE)</button>
           </div>
 
+          <div class="kv">
+            <div class="k">d20</div><div class="v" id="rollD20">—</div>
+            <div class="k">mod</div><div class="v" id="rollMOD">+0</div>
+            <div class="k">dc</div><div class="v" id="rollDC">—</div>
+            <div class="k">esito</div><div class="v" id="rollOUT">—</div>
+          </div>
         </div>
+
+        <div class="subpanel" style="margin-top:10px;">
+          <div class="subhead"><span>Flags</span><span class="pill warn" id="debtPill">DEBT: —</span></div>
+          <div class="kv">
+            <div class="k">Wanted</div><div class="v" id="flagWanted">—</div>
+            <div class="k">Curse</div><div class="v" id="flagCurse">—</div>
+            <div class="k">Rumors</div><div class="v" id="flagRumors">—</div>
+            <div class="k">Coins</div><div class="v" id="flagCoins">—</div>
+          </div>
+        </div>
+
+        <div class="subpanel" style="margin-top:10px;">
+          <div class="subhead"><span>Audio</span><span class="pill" id="audioState">TAVERNA</span></div>
+          <div class="kv">
+            <div class="k">Stato</div><div class="v" id="audioOnOff">OFF</div>
+            <div class="k">Vol</div><div class="v">
+              <input id="vol" type="range" min="0" max="100" value="35" style="width:120px; vertical-align:middle;">
+            </div>
+          </div>
+          <div class="hint">Placeholder audio. Poi lo sostituiamo con un loop reale.</div>
+        </div>
+
       </section>
 
       <!-- SCENE -->
-      <section class="panel scene" aria-label="Scena e narrazione">
+      <section class="panel scene" id="scenePanel" aria-label="Scena e narrazione" style="display:none;">
         <div class="panel-header">
           <div class="panel-title">Master Log <span class="tag" id="sceneTag">TAVERNA</span></div>
           <div class="panel-tools">
@@ -610,7 +752,7 @@
       </section>
 
       <!-- SHEET -->
-      <section class="panel sheet" aria-label="Scheda personaggio">
+      <section class="panel sheet" id="sheetPanel" aria-label="Scheda personaggio" style="display:none;">
         <div class="panel-header">
           <div class="panel-title">PG <span class="tag">SHEET</span></div>
           <div class="panel-tools">
@@ -620,27 +762,27 @@
 
         <div class="sheet-grid">
           <div class="subpanel">
-            <div class="big" id="pgName">EST</div>
-            <div class="small" id="pgMeta">Warlock • Lv 3 • “Occhio di Gelo”</div>
+            <div class="big" id="pgName">—</div>
+            <div class="small" id="pgMeta">—</div>
 
             <div class="stats">
               <div class="stat">
                 <div class="n">Corpo</div>
-                <div class="v" id="stBody">+1</div>
+                <div class="v" id="stBody">+0</div>
               </div>
               <div class="stat">
                 <div class="n">Mente</div>
-                <div class="v" id="stMind">+2</div>
+                <div class="v" id="stMind">+0</div>
               </div>
               <div class="stat">
                 <div class="n">Ombra</div>
-                <div class="v" id="stShade">+3</div>
+                <div class="v" id="stShade">+0</div>
               </div>
             </div>
           </div>
 
           <div class="subpanel">
-            <div class="subhead"><span>Talenti</span><span class="pill">3</span></div>
+            <div class="subhead"><span>Talenti</span><span class="pill" id="talCount">—</span></div>
             <div class="list" id="talentsList"></div>
           </div>
 
@@ -657,7 +799,7 @@
       </section>
 
       <!-- COMMAND BAR -->
-      <section class="panel command" aria-label="Command bar">
+      <section class="panel command" id="cmdPanel" aria-label="Command bar" style="display:none;">
         <div class="panel-header">
           <div class="panel-title">Input <span class="tag">COMMAND</span></div>
           <div class="panel-tools">
@@ -696,62 +838,138 @@
     const $ = (s) => document.querySelector(s);
 
     // ----------------------------
-    // STATE
+    // STORE / STATE
     // ----------------------------
-    const STORE_KEY = "ERA_CPS2_RUN_V4_CLEAN";
+    const STORE_KEY = "ERA_CPS2_RUN_V4_PICK_6CLASSES";
+
+    const CLASSES = [
+      { id:"GUERRIERO", label:"Guerriero",
+        meta:"Guerriero • Lv 3",
+        stats:{ CORPO:3, MENTE:1, OMBRA:0 },
+        talents:["Armi Pesanti","Tenacia","Intimidire"],
+        inv:["Monete: 10","Spada","Scudo","Bende ×2"]
+      },
+      { id:"LADRO", label:"Ladro",
+        meta:"Ladro • Lv 3",
+        stats:{ CORPO:1, MENTE:1, OMBRA:3 },
+        talents:["Furtività","Serrature","Sangue Freddo"],
+        inv:["Monete: 12","Pugnale","Torcia ×2","Filo & Ago"]
+      },
+      { id:"RANGER", label:"Ranger",
+        meta:"Ranger • Lv 3",
+        stats:{ CORPO:2, MENTE:1, OMBRA:2 },
+        talents:["Tracciare","Arco","Sopravvivenza"],
+        inv:["Monete: 11","Arco","Frecce ×20","Mantello"]
+      },
+      { id:"WARLOCK", label:"Warlock",
+        meta:"Warlock • Lv 3",
+        stats:{ CORPO:0, MENTE:2, OMBRA:3 },
+        talents:["Patto","Sussurri","Maledizione"],
+        inv:["Monete: 9","Focus","Pugnale","Sale Nero"]
+      },
+      { id:"DRUIDO", label:"Druido",
+        meta:"Druido • Lv 3",
+        stats:{ CORPO:1, MENTE:3, OMBRA:1 },
+        talents:["Forma Selvaggia","Erbe","Legame"],
+        inv:["Monete: 8","Falce corta","Erbe ×3","Totem"]
+      },
+      { id:"STREGONE", label:"Stregone",
+        meta:"Stregone • Lv 3",
+        stats:{ CORPO:0, MENTE:3, OMBRA:2 },
+        talents:["Magia Innata","Scintilla","Pressione"],
+        inv:["Monete: 9","Cristallo","Pugnale","Pergamena"]
+      },
+    ];
 
     const defaultState = () => ({
       session: 1,
+      phase: "PICK", // PICK | RUN
       mode: "AGISCI",
       scene: "TAVERNA",
       step: 0,
+
       pg: {
-        name: "EST",
-        meta: "Warlock • Lv 3 • “Occhio di Gelo”",
-        stats: { CORPO: 1, MENTE: 2, OMBRA: 3 },
-        talents: ["Patto", "Inganno", "Sangue Freddo"],
-        inventory: ["Monete: 12", "Pugnale", "Torcia ×2", "Filo & Ago"]
+        name: "",
+        classId: "LADRO",
+        trait: "",
+        meta: "",
+        stats: { CORPO: 1, MENTE: 1, OMBRA: 3 },
+        talents: [],
+        inventory: []
       },
+
       res: { hp: 15, hpMax: 15, sta: 11, staMax: 11, fate: 3, fateMax: 5 },
       flags: { wanted: false, curse: "—", debt: 2, rumors: 1, coins: 12 },
       regionPct: 40,
+
       lastRoll: null,
-      pendingCheck: null, // {statA, statB, dc, stake, mode}
+      pendingCheck: null,
       history: []
     });
 
     let S = defaultState();
 
+    function persist(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(S)); }catch(e){} }
+    function load(){ try{ const raw = localStorage.getItem(STORE_KEY); if(!raw) return false; S = JSON.parse(raw); return true; }catch(e){ return false; } }
+    function clamp(n,a,b){ return Math.max(a, Math.min(b,n)); }
+
     // ----------------------------
     // UI refs
     // ----------------------------
     const sessionChip = $("#sessionChip");
+
+    // Panels
+    const pickPanel = $("#pickPanel");
+    const hudPanel = $("#hudPanel");
+    const scenePanel = $("#scenePanel");
+    const sheetPanel = $("#sheetPanel");
+    const cmdPanel = $("#cmdPanel");
+
+    // PICK
+    const classGrid = $("#classGrid");
+    const pickName = $("#pickName");
+    const pickTrait = $("#pickTrait");
+    const pickHint = $("#pickHint");
+    const pickClassPill = $("#pickClassPill");
+    const pvName = $("#pvName");
+    const pvClass = $("#pvClass");
+    const pvTrait = $("#pvTrait");
+    const pvStats = $("#pvStats");
+    const pvTalents = $("#pvTalents");
+    const pvInv = $("#pvInv");
+
+    // RUN common
     const sceneTag = $("#sceneTag");
     const sceneBox = $("#sceneBox");
     const sceneText = $("#sceneText");
+    const historyEl = $("#history");
+    const logCount = $("#logCount");
+    const cmd = $("#cmd");
 
+    // Bars
     const barHP = $("#barHP"), barSTA = $("#barSTA"), barFATE = $("#barFATE");
     const hpVal = $("#hpVal"), staVal = $("#staVal"), fateVal = $("#fateVal");
     const regionPill = $("#regionPill");
 
+    // Flags
     const debtPill = $("#debtPill"), flagWanted = $("#flagWanted"), flagCurse = $("#flagCurse"),
           flagRumors = $("#flagRumors"), flagCoins = $("#flagCoins");
 
+    // Rolls
     const rollPanel = $("#rollPanel"), rollResultPill = $("#rollResultPill"),
           rollD20 = $("#rollD20"), rollMOD = $("#rollMOD"), rollDC = $("#rollDC"), rollOUT = $("#rollOUT");
     const pendingHint = $("#pendingHint");
-    const btnRollA = $("#btnRollA"), btnRollB = $("#btnRollB");
+    const btnRollA = $("#btnRollA"), btnRollB = $("#btnRollB"), btnRollOverride = $("#btnRollOverride");
+    const selStat = $("#selStat"), selDC = $("#selDC");
 
+    // Sheet
     const pgName = $("#pgName"), pgMeta = $("#pgMeta"),
           stBody = $("#stBody"), stMind = $("#stMind"), stShade = $("#stShade");
-    const talentsList = $("#talentsList"), invList = $("#invList"), invCount = $("#invCount");
+    const talentsList = $("#talentsList"), invList = $("#invList"), invCount = $("#invCount"), talCount = $("#talCount");
     const runPill = $("#runPill"), runHint = $("#runHint");
 
-    const historyEl = $("#history"), logCount = $("#logCount");
-    const cmd = $("#cmd");
-
     // ----------------------------
-    // Narrative banks (no AI yet)
+    // Narrative banks (placeholder, no AI)
     // ----------------------------
     const N = {
       TAVERNA: [
@@ -773,15 +991,6 @@
     // ----------------------------
     // Helpers
     // ----------------------------
-    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
-
-    function persist(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(S)); }catch(e){} }
-    function load(){ try{ const raw = localStorage.getItem(STORE_KEY); if(!raw) return false; S = JSON.parse(raw); return true; }catch(e){ return false; } }
-
-    function escapeHtml(str){
-      return str.replace(/[&<>"']/g, (m) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
-    }
-
     function fxBlink(el){ el.classList.remove("fx-blink"); void el.offsetWidth; el.classList.add("fx-blink"); }
     function fxShake(el){ el.classList.remove("fx-shake"); void el.offsetWidth; el.classList.add("fx-shake"); }
 
@@ -816,6 +1025,15 @@
       else S.pg.inventory.unshift("Monete: " + S.flags.coins);
     }
 
+    function showPhase(){
+      const pick = S.phase === "PICK";
+      pickPanel.style.display = pick ? "" : "none";
+      hudPanel.style.display   = pick ? "none" : "";
+      scenePanel.style.display = pick ? "none" : "";
+      sheetPanel.style.display = pick ? "none" : "";
+      cmdPanel.style.display   = pick ? "none" : "";
+    }
+
     // ----------------------------
     // Rendering
     // ----------------------------
@@ -847,19 +1065,24 @@
         btnRollB.textContent = "TIRA (B)";
         btnRollA.disabled = true;
         btnRollB.disabled = true;
+        btnRollOverride.disabled = true;
         btnRollA.style.opacity = .5;
         btnRollB.style.opacity = .5;
+        btnRollOverride.style.opacity = .5;
         return;
       }
-
       const p = S.pendingCheck;
       pendingHint.textContent = `TIRO RICHIESTO — DC ${p.dc}: ${p.stake}`;
       btnRollA.textContent = `TIRA con ${p.statA}`;
       btnRollB.textContent = `TIRA con ${p.statB}`;
       btnRollA.disabled = false;
       btnRollB.disabled = false;
+      btnRollOverride.disabled = false;
       btnRollA.style.opacity = 1;
       btnRollB.style.opacity = 1;
+      btnRollOverride.style.opacity = 1;
+      selStat.value = p.statA;
+      selDC.value = String(p.dc);
     }
 
     function renderRoll(){
@@ -882,20 +1105,22 @@
     }
 
     function renderSheet(){
-      pgName.textContent = S.pg.name;
-      pgMeta.textContent = S.pg.meta;
+      pgName.textContent = S.pg.name || "—";
+      pgMeta.textContent = S.pg.meta || "—";
+
       stBody.textContent = (S.pg.stats.CORPO>=0?"+":"") + S.pg.stats.CORPO;
       stMind.textContent = (S.pg.stats.MENTE>=0?"+":"") + S.pg.stats.MENTE;
       stShade.textContent = (S.pg.stats.OMBRA>=0?"+":"") + S.pg.stats.OMBRA;
 
-      talentsList.innerHTML = S.pg.talents.map(t => `<span class="token">${escapeHtml(t)}</span>`).join("");
-      invList.innerHTML = S.pg.inventory.map(i => `<span class="token">${escapeHtml(i)}</span>`).join("");
+      talentsList.innerHTML = S.pg.talents.map(t => `<span class="token">${t}</span>`).join("");
+      invList.innerHTML = S.pg.inventory.map(i => `<span class="token">${i}</span>`).join("");
       invCount.textContent = String(S.pg.inventory.length);
+      talCount.textContent = String(S.pg.talents.length);
 
       if (S.res.hp <= 0){
         runPill.className = "pill bad";
         runPill.textContent = "K.O.";
-        runHint.textContent = "Sei a terra. NEW RUN per ripartire (FATE revival lo aggiungiamo dopo).";
+        runHint.textContent = "Sei a terra. NEW RUN per ripartire.";
       } else {
         runPill.className = "pill good";
         runPill.textContent = "ATTIVO";
@@ -904,12 +1129,34 @@
     }
 
     function renderHistory(){
-      historyEl.innerHTML = S.history.map(h => "• " + escapeHtml(h)).join("<br>");
+      historyEl.innerHTML = S.history.map(h => "• " + h).join("<br>");
       logCount.textContent = String(S.history.length);
+    }
+
+    function renderPickPreview(){
+      const cls = CLASSES.find(c => c.id === S.pg.classId) || CLASSES[1];
+      pickClassPill.textContent = cls.label.toUpperCase();
+      pvName.textContent = (S.pg.name || "—");
+      pvClass.textContent = cls.label;
+      pvTrait.textContent = (S.pg.trait || "—");
+      pvStats.textContent = `Stats: CORPO +${cls.stats.CORPO} • MENTE +${cls.stats.MENTE} • OMBRA +${cls.stats.OMBRA}`;
+      pvTalents.textContent = `Talenti: ${cls.talents.join(", ")}`;
+      pvInv.textContent = `Inventario: ${cls.inv.join(", ")}`;
+
+      const ok = (S.pg.name || "").trim().length >= 2 && (S.pg.trait || "").trim().length >= 2;
+      pickHint.className = "pill " + (ok ? "good" : "warn");
+      pickHint.textContent = ok ? "PRONTO" : "OBBLIGATORIO";
     }
 
     function renderAll(){
       setSession(S.session);
+      showPhase();
+
+      if (S.phase === "PICK"){
+        renderPickPreview();
+        return;
+      }
+
       sceneTag.textContent = S.scene;
       renderBars();
       renderFlags();
@@ -920,7 +1167,7 @@
     }
 
     // ----------------------------
-    // Core mechanics
+    // Mechanics
     // ----------------------------
     function d20(){ return Math.floor(Math.random()*20) + 1; }
     function statMod(stat){ return S.pg.stats[stat] ?? 0; }
@@ -1051,7 +1298,6 @@
 
       pushHistory(`Tiro: ${stat} vs DC ${dc} (${stakeText || "posta"}) → d20 ${d} ${(mod>=0?"+":"") + mod} = ${total} → ${ok ? "SUCCESSO" : "FALLIMENTO"}`);
 
-      // clear pending
       S.pendingCheck = null;
       renderPending();
       renderRoll();
@@ -1129,7 +1375,7 @@
     }
 
     // ----------------------------
-    // Commands (narrativo)
+    // Commands
     // ----------------------------
     async function handlePlayerAction(text){
       if (S.res.hp <= 0){
@@ -1202,6 +1448,71 @@
     $("#vol").addEventListener("input", setVol);
 
     // ----------------------------
+    // PICK UI
+    // ----------------------------
+    function buildClassGrid(){
+      classGrid.innerHTML = "";
+      for (const c of CLASSES){
+        const b = document.createElement("button");
+        b.className = "btn class-btn";
+        b.textContent = c.label;
+        b.dataset.id = c.id;
+        b.addEventListener("click", ()=>{
+          S.pg.classId = c.id;
+          document.querySelectorAll(".class-btn").forEach(x=>x.classList.remove("active"));
+          b.classList.add("active");
+          persist();
+          renderPickPreview();
+        });
+        classGrid.appendChild(b);
+      }
+      // set active
+      const active = classGrid.querySelector(`[data-id="${S.pg.classId}"]`);
+      if (active) active.classList.add("active");
+    }
+
+    function applyClassToPG(){
+      const cls = CLASSES.find(c => c.id === S.pg.classId) || CLASSES[1];
+      S.pg.meta = `${cls.meta} • ${S.pg.trait ? S.pg.trait : ""}`.trim();
+      S.pg.stats = { ...cls.stats };
+      S.pg.talents = [...cls.talents];
+      S.pg.inventory = [...cls.inv];
+
+      // sync coins number
+      const coinLine = S.pg.inventory.find(x => x.toLowerCase().startsWith("monete:"));
+      const coins = coinLine ? Number((coinLine.split(":")[1]||"0").trim()) : 10;
+      S.flags.coins = isNaN(coins) ? 10 : coins;
+      syncCoinsToInventory();
+    }
+
+    function startRunFromPick(){
+      const name = (S.pg.name || "").trim();
+      const trait = (S.pg.trait || "").trim();
+      if (name.length < 2 || trait.length < 2){
+        fxShake(pickPanel);
+        return;
+      }
+
+      // reset run variables (but keep session)
+      const keepSession = S.session;
+      const keepPick = { name, trait, classId: S.pg.classId };
+      S = defaultState();
+      S.session = keepSession;
+      S.pg.name = keepPick.name;
+      S.pg.trait = keepPick.trait;
+      S.pg.classId = keepPick.classId;
+
+      applyClassToPG();
+
+      S.phase = "RUN";
+      persist();
+      renderAll();
+
+      pushHistory("RUN: iniziata.");
+      sceneAdvance(true);
+    }
+
+    // ----------------------------
     // Events
     // ----------------------------
     document.querySelectorAll(".tab").forEach(btn=>{
@@ -1262,6 +1573,14 @@
 
     btnRollA.addEventListener("click", ()=> resolveWithStat(S.pendingCheck?.statA));
     btnRollB.addEventListener("click", ()=> resolveWithStat(S.pendingCheck?.statB));
+    btnRollOverride.addEventListener("click", ()=>{
+      if (!S.pendingCheck){
+        pushHistory("SYSTEM: nessun tiro richiesto.");
+        fxBlink(rollPanel);
+        return;
+      }
+      resolveWithStat(selStat.value);
+    });
 
     $("#btnAdvance").addEventListener("click", ()=> sceneAdvance());
     $("#btnResetLog").addEventListener("click", ()=>{
@@ -1281,19 +1600,21 @@
       if (ok){
         renderAll();
         pushHistory("SYSTEM: caricato.");
-        fxBlink(sceneBox);
-        await sceneAdvance(true);
+        if (S.phase === "RUN") await sceneAdvance(true);
       } else {
         pushHistory("SYSTEM: nessun salvataggio trovato.");
       }
     });
 
     $("#btnNew").addEventListener("click", async ()=>{
+      // NEW RUN = torna alla selezione personaggio
+      const keepSession = S.session;
       S = defaultState();
+      S.session = keepSession;
+      S.phase = "PICK";
       persist();
       renderAll();
-      pushHistory("RUN: nuova partita.");
-      await sceneAdvance(true);
+      fxBlink(pickPanel);
     });
 
     $("#btnPortrait").addEventListener("click", ()=>{
@@ -1310,6 +1631,55 @@
       setVol();
     });
 
+    // PICK events
+    pickName.addEventListener("input", ()=>{
+      S.pg.name = pickName.value;
+      persist();
+      renderPickPreview();
+    });
+    pickTrait.addEventListener("input", ()=>{
+      S.pg.trait = pickTrait.value;
+      persist();
+      renderPickPreview();
+    });
+
+    $("#btnStartRun").addEventListener("click", startRunFromPick);
+
+    $("#btnPickReset").addEventListener("click", ()=>{
+      S.pg.name = "";
+      S.pg.trait = "";
+      S.pg.classId = "LADRO";
+      pickName.value = "";
+      pickTrait.value = "";
+      document.querySelectorAll(".class-btn").forEach(x=>x.classList.remove("active"));
+      const active = classGrid.querySelector(`[data-id="LADRO"]`);
+      if (active) active.classList.add("active");
+      persist();
+      renderPickPreview();
+      fxBlink(pickPanel);
+    });
+
+    $("#btnPickRandom").addEventListener("click", ()=>{
+      const rndName = ["Rein dell’Orlo","Lyra","North","Selene","Araldo","Kiran"].sort(()=>Math.random()-0.5)[0];
+      const rndTrait = ["“Non corro: arrivo.”","“Sorrido quando peggiora.”","“Mi piace il rischio, non la folla.”","“Non chiedo permesso.”","“Ascolto prima di colpire.”"].sort(()=>Math.random()-0.5)[0];
+      const rndClass = CLASSES[Math.floor(Math.random()*CLASSES.length)].id;
+
+      S.pg.name = rndName;
+      S.pg.trait = rndTrait;
+      S.pg.classId = rndClass;
+
+      pickName.value = rndName;
+      pickTrait.value = rndTrait;
+
+      document.querySelectorAll(".class-btn").forEach(x=>x.classList.remove("active"));
+      const active = classGrid.querySelector(`[data-id="${rndClass}"]`);
+      if (active) active.classList.add("active");
+
+      persist();
+      renderPickPreview();
+      fxBlink(pickPanel);
+    });
+
     // ----------------------------
     // Init
     // ----------------------------
@@ -1319,10 +1689,19 @@
         S = defaultState();
         persist();
       }
+
+      buildClassGrid();
+
+      // Fill pick inputs if present
+      pickName.value = S.pg.name || "";
+      pickTrait.value = S.pg.trait || "";
+
       renderAll();
-      renderPending();
-      sceneAdvance(true);
-      if (!has) pushHistory("RUN: iniziata.");
+
+      // If already in RUN, show scene
+      if (S.phase === "RUN"){
+        sceneAdvance(true);
+      }
     })();
   </script>
 </body>
