@@ -1,1390 +1,178 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>ERA — Tavolo Chiuso (CPS2 Mobile)</title>
-  <style>
-    :root{
-      --bg: #070a10;
-      --ink: #e9eefc;
-      --muted: #9aa6c7;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'ANTRO DEL VIANDANTE</title>
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --panel-bg: #1a1a1a;
+            --text-color: #d1c7a7; /* Color pergamena antica */
+            --accent: #8b0000; /* Rosso scuro */
+            --border: #333;
+        }
 
-      --line: #263053;
-      --line2:#3a4b84;
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Georgia', serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-      --good:#7ee081;
-      --bad:#ff6b6b;
-      --warn:#ffd166;
+        /* Pannello Sinistro: Statistiche */
+        #sidebar {
+            width: 250px;
+            background: var(--panel-bg);
+            border-right: 2px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-      --accent:#7a5cff;
-      --accent2:#00d4ff;
+        .stat-box {
+            border: 1px solid var(--accent);
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+        }
 
-      --r: 10px;
+        /* Area Centrale: Diario di Gioco */
+        #main-game {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            overflow-y: auto;
+            background: radial-gradient(circle, #1a1a1a 0%, #0d0d0d 100%);
+        }
 
-      --font-ui: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-      --font-title: var(--font-ui);
-      --font-pixel: var(--font-ui);
-    }
+        #log {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
 
-    *{ box-sizing: border-box; }
-    html,body{ height: 100%; }
-    body{
-      margin: 0;
-      background: radial-gradient(1200px 800px at 50% -20%, #111a3d 0%, var(--bg) 55%, #05070f 100%);
-      color: var(--ink);
-      font-family: var(--font-ui);
-      letter-spacing: .2px;
-    }
+        /* Pannello Destro: Azioni */
+        #actions {
+            width: 300px;
+            background: var(--panel-bg);
+            border-left: 2px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-    body::before{
-      content:"";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,0.03) 0px,
-        rgba(255,255,255,0.03) 1px,
-        rgba(0,0,0,0) 2px,
-        rgba(0,0,0,0) 4px
-      );
-      mix-blend-mode: overlay;
-      opacity: .25;
-    }
+        button {
+            background: transparent;
+            border: 1px solid var(--text-color);
+            color: var(--text-color);
+            padding: 12px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            transition: 0.3s;
+            text-align: left;
+        }
 
-    .app{
-      min-height: 100%;
-      display: flex;
-      flex-direction: column;
-      padding: max(10px, env(safe-area-inset-top)) 10px max(12px, env(safe-area-inset-bottom));
-      gap: 10px;
-    }
+        button:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
 
-    .topbar{
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width: 0;
-    }
-
-    .brand .logo{
-      width: 34px; height: 34px;
-      border-radius: 8px;
-      background: linear-gradient(180deg, #1a2550 0%, #0b1024 100%);
-      border: 2px solid var(--line2);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.5) inset;
-      position: relative;
-    }
-    .brand .logo::after{
-      content:"";
-      position:absolute; inset: 6px;
-      border: 2px solid var(--accent2);
-      border-radius: 6px;
-      opacity: .9;
-    }
-
-    .brand .title{
-      min-width: 0;
-      display:flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .brand .title .h1{
-      font-family: var(--font-title);
-      font-weight: 800;
-      font-size: 14px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .brand .title .sub{
-      font-size: 11px;
-      color: var(--muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .top-actions{
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      flex: 0 0 auto;
-    }
-
-    .chip{
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      color: var(--muted);
-      border: 2px solid var(--line);
-      background: rgba(10,16,32,.65);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-      white-space: nowrap;
-    }
-
-    .btn{
-      appearance: none;
-      border: 0;
-      background: transparent;
-      color: var(--ink);
-      font: inherit;
-      cursor: pointer;
-    }
-
-    .btn.primary{
-      padding: 10px 12px;
-      border-radius: 10px;
-      background: linear-gradient(180deg, #2b2f6c 0%, #141a3e 100%);
-      border: 2px solid var(--line2);
-      box-shadow:
-        0 2px 0 0 rgba(0,0,0,.6),
-        0 0 0 2px rgba(0,0,0,.35) inset;
-      text-transform: uppercase;
-      font-weight: 800;
-      font-size: 12px;
-      letter-spacing: .6px;
-    }
-    .btn.primary:active{ transform: translateY(1px); }
-
-    .panel{
-      background: linear-gradient(180deg, rgba(22,30,58,.55) 0%, rgba(10,16,32,.75) 100%);
-      border-radius: var(--r);
-      position: relative;
-      padding: 12px;
-      border: 2px solid var(--line2);
-      box-shadow:
-        0 0 0 2px rgba(0,0,0,.55) inset,
-        0 10px 30px rgba(0,0,0,.35);
-      overflow: hidden;
-    }
-    .panel::before{
-      content:"";
-      position: absolute;
-      inset: 0;
-      border-radius: var(--r);
-      box-shadow:
-        0 2px 0 0 rgba(255,255,255,.08) inset,
-        0 -2px 0 0 rgba(0,0,0,.55) inset;
-      pointer-events: none;
-    }
-
-    .panel-header{
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .panel-title{
-      font-family: var(--font-title);
-      font-weight: 900;
-      text-transform: uppercase;
-      font-size: 12px;
-      letter-spacing: .8px;
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      min-width: 0;
-    }
-    .panel-title .tag{
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 2px solid var(--line);
-      background: rgba(8,12,24,.65);
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: .6px;
-    }
-
-    .panel-tools{ display:flex; gap: 8px; }
-    .btn.mini{
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(8,12,24,.55);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      font-weight: 800;
-      letter-spacing: .6px;
-    }
-    .btn.mini:active{ transform: translateY(1px); }
-
-    .stack{
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      flex: 1 1 auto;
-    }
-
-    @media (min-width: 980px){
-      .stack{
-        display:grid;
-        grid-template-columns: 320px 1fr 360px;
-        gap: 12px;
-        align-items: start;
-      }
-      .panel.hud { grid-column: 1; }
-      .panel.scene{ grid-column: 2; }
-      .panel.sheet{ grid-column: 3; }
-      .panel.command{ grid-column: 1 / span 3; }
-    }
-
-    .hud-grid{ display:grid; grid-template-columns: 1fr; gap: 10px; }
-
-    .subpanel{
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(6,10,20,.55);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-      padding: 10px;
-    }
-    .subhead{
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      gap: 10px;
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      font-weight: 800;
-    }
-
-    .barrow{
-      display:grid;
-      grid-template-columns: 56px 1fr 70px;
-      gap: 10px;
-      align-items:center;
-      margin: 8px 0;
-    }
-    .barlabel{
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      font-weight: 800;
-      letter-spacing: .6px;
-    }
-    .bar{
-      height: 14px;
-      border-radius: 999px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.25);
-      overflow:hidden;
-      position: relative;
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-    }
-    .bar > i{
-      display:block;
-      height:100%;
-      width: 60%;
-      background: linear-gradient(180deg, rgba(122,92,255,.9) 0%, rgba(0,212,255,.85) 100%);
-      box-shadow: 0 0 18px rgba(0,212,255,.25);
-    }
-    .barval{
-      font-size: 11px;
-      color: var(--ink);
-      font-weight: 900;
-      text-align:right;
-      white-space: nowrap;
-    }
-
-    .kv{
-      display:grid;
-      grid-template-columns: 1fr auto;
-      gap: 8px 10px;
-      font-size: 12px;
-      align-items: baseline;
-    }
-    .kv .k{ color: var(--muted); text-transform: uppercase; font-weight: 800; letter-spacing: .6px; font-size: 11px; }
-    .kv .v{ font-weight: 900; }
-    .pill{
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.2);
-      font-size: 11px;
-      font-weight: 900;
-      display:inline-flex;
-      align-items:center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-    .pill.good{ color: var(--good); }
-    .pill.bad{ color: var(--bad); }
-    .pill.warn{ color: var(--warn); }
-
-    .log{
-      font-family: var(--font-pixel);
-      font-size: 14px;
-      line-height: 1.35;
-      letter-spacing: .1px;
-    }
-    .log .boxline{
-      padding: 10px;
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(6,10,20,.55);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-      margin-bottom: 10px;
-      position: relative;
-      overflow:hidden;
-      white-space: pre-wrap;
-    }
-    .log .boxline::after{
-      content:"";
-      position:absolute;
-      inset: -40px -40px auto auto;
-      width: 90px; height: 90px;
-      transform: rotate(25deg);
-      background: radial-gradient(circle at 30% 30%, rgba(122,92,255,.22) 0%, rgba(0,0,0,0) 60%);
-      pointer-events:none;
-    }
-    .prompt{
-      color: var(--muted);
-      font-size: 12px;
-      margin-top: 6px;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      font-weight: 800;
-    }
-
-    .sheet-grid{ display:grid; grid-template-columns: 1fr; gap: 10px; }
-    .sheet .big{
-      font-size: 16px;
-      font-weight: 1000;
-      letter-spacing: .4px;
-      text-transform: uppercase;
-    }
-    .sheet .small{ color: var(--muted); font-size: 12px; margin-top: 2px; }
-    .stats{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .stat{
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(6,10,20,.55);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-      padding: 10px;
-      text-align:center;
-    }
-    .stat .n{
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      font-weight: 900;
-      letter-spacing: .8px;
-    }
-    .stat .v{
-      font-size: 20px;
-      font-weight: 1000;
-      margin-top: 4px;
-    }
-
-    .list{ display:flex; flex-wrap: wrap; gap: 8px; }
-    .token{
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.22);
-      font-size: 12px;
-      font-weight: 900;
-      color: var(--ink);
-      white-space: nowrap;
-    }
-
-    .tabs{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-    .tab{
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.22);
-      font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 1000;
-      letter-spacing: .8px;
-      color: var(--muted);
-    }
-    .tab.active{
-      border-color: var(--line2);
-      color: var(--ink);
-      background: linear-gradient(180deg, rgba(43,47,108,.55) 0%, rgba(20,26,62,.55) 100%);
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-    }
-
-    .cmdrow{
-      display:grid;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-    }
-    .input{
-      width: 100%;
-      padding: 12px 12px;
-      border-radius: 10px;
-      border: 2px solid var(--line2);
-      background: rgba(6,10,20,.55);
-      color: var(--ink);
-      font-family: var(--font-pixel);
-      font-size: 14px;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(0,0,0,.35) inset;
-    }
-    .input::placeholder{ color: rgba(154,166,199,.75); }
-
-    .quick{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .quick .btnq{
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.22);
-      color: var(--ink);
-      font-size: 12px;
-      font-weight: 1000;
-      letter-spacing: .4px;
-    }
-    .quick .btnq:active{ transform: translateY(1px); }
-
-    select.sel{
-      width: 100%;
-      padding: 10px 10px;
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.22);
-      color: var(--ink);
-      font-family: var(--font-ui);
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      font-size: 11px;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(0,0,0,.25) inset;
-    }
-
-    @keyframes blink { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.4)} }
-    @keyframes shake { 0%{transform:translateX(0)} 25%{transform:translateX(-2px)} 50%{transform:translateX(2px)} 75%{transform:translateX(-2px)} 100%{transform:translateX(0)} }
-    .fx-blink{ animation: blink .3s linear 2; }
-    .fx-shake{ animation: shake .22s linear 2; }
-
-    .panel.command{ position: sticky; bottom: 10px; }
-    @media (min-width: 980px){ .panel.command{ position: relative; bottom: auto; } }
-
-    .hint{ color: var(--muted); font-size: 11px; margin-top: 8px; line-height: 1.3; }
-
-    @media (prefers-reduced-motion: reduce){
-      body::before{ display:none; }
-      .fx-blink, .fx-shake{ animation: none !important; }
-    }
-  </style>
+        h2, h3 { color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
+        .sep { height: 2px; background: var(--accent); margin: 10px 0; }
+    </style>
 </head>
-
 <body>
-  <div class="app">
-    <div class="topbar">
-      <div class="brand">
-        <div class="logo" aria-hidden="true"></div>
-        <div class="title">
-          <div class="h1">ERA // Tavolo Chiuso</div>
-          <div class="sub">CPS2 • Mobile-first • Narrativo: dadi solo quando serve</div>
-        </div>
-      </div>
 
-      <div class="top-actions">
-        <div class="chip" id="sessionChip">SESSION: 0001</div>
-        <button class="btn primary" id="btnSave" title="Salva">SAVE</button>
-        <button class="btn primary" id="btnPlayPause" title="Play/Pause Audio">⏵ PLAY</button>
-      </div>
+<div id="sidebar">
+    <h2>Eroe</h2>
+    <div class="stat-box">
+        <div>NOME: <span id="p-name">???</span></div>
+        <div>RUOLO: <span id="p-class">Straniero</span></div>
     </div>
-
-    <div class="stack">
-
-      <!-- HUD -->
-      <section class="panel hud" aria-label="HUD Arcade">
-        <div class="panel-header">
-          <div class="panel-title">HUD <span class="tag">ARCADE</span></div>
-          <div class="panel-tools">
-            <button class="btn mini" id="btnLoad">LOAD</button>
-            <button class="btn mini" id="btnNew">NEW RUN</button>
-          </div>
-        </div>
-
-        <div class="hud-grid">
-
-          <div class="subpanel">
-            <div class="subhead">
-              <span>Risorse</span>
-              <span id="regionPill" class="pill warn">REGION 40%</span>
-            </div>
-
-            <div class="barrow">
-              <div class="barlabel">HP</div>
-              <div class="bar"><i id="barHP"></i></div>
-              <div class="barval" id="hpVal">—</div>
-            </div>
-            <div class="barrow">
-              <div class="barlabel">STA</div>
-              <div class="bar"><i id="barSTA"></i></div>
-              <div class="barval" id="staVal">—</div>
-            </div>
-            <div class="barrow">
-              <div class="barlabel">FATE</div>
-              <div class="bar"><i id="barFATE"></i></div>
-              <div class="barval" id="fateVal">—</div>
-            </div>
-          </div>
-
-          <div class="subpanel" id="rollPanel">
-            <div class="subhead">
-              <span>Last roll</span>
-              <span id="rollResultPill" class="pill warn">—</span>
-            </div>
-
-            <div style="display:grid; grid-template-columns: 1fr; gap: 8px; margin-bottom:10px;">
-              <button class="btn primary" id="btnRollA" style="width:100%;">TIRA (A)</button>
-              <button class="btn primary" id="btnRollB" style="width:100%;">TIRA (B)</button>
-              <div class="hint" id="pendingHint" style="margin-top:0;">Nessun tiro richiesto.</div>
-              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
-                <div>
-                  <div class="hint" style="margin:0 0 6px;">Override Stat</div>
-                  <select class="sel" id="selStat">
-                    <option value="CORPO">CORPO</option>
-                    <option value="MENTE">MENTE</option>
-                    <option value="OMBRA" selected>OMBRA</option>
-                  </select>
-                </div>
-                <div>
-                  <div class="hint" style="margin:0 0 6px;">Override DC</div>
-                  <select class="sel" id="selDC">
-                    <option value="10">10</option>
-                    <option value="12" selected>12</option>
-                    <option value="14">14</option>
-                    <option value="16">16</option>
-                  </select>
-                </div>
-              </div>
-              <button class="btn mini" id="btnRollOverride" style="width:100%;">TIRA (OVERRIDE)</button>
-            </div>
-
-            <div class="kv">
-              <div class="k">d20</div><div class="v" id="rollD20">—</div>
-              <div class="k">mod</div><div class="v" id="rollMOD">+0</div>
-              <div class="k">dc</div><div class="v" id="rollDC">—</div>
-              <div class="k">esito</div><div class="v" id="rollOUT">—</div>
-            </div>
-          </div>
-
-          <div class="subpanel">
-            <div class="subhead"><span>Flags</span><span class="pill warn" id="debtPill">DEBT: —</span></div>
-            <div class="kv">
-              <div class="k">Wanted</div><div class="v" id="flagWanted">—</div>
-              <div class="k">Curse</div><div class="v" id="flagCurse">—</div>
-              <div class="k">Rumors</div><div class="v" id="flagRumors">—</div>
-              <div class="k">Coins</div><div class="v" id="flagCoins">—</div>
-            </div>
-          </div>
-
-          <div class="subpanel">
-            <div class="subhead"><span>Audio</span><span class="pill" id="audioState">TAVERNA</span></div>
-            <div class="kv">
-              <div class="k">Stato</div><div class="v" id="audioOnOff">OFF</div>
-              <div class="k">Vol</div><div class="v">
-                <input id="vol" type="range" min="0" max="100" value="35" style="width:120px; vertical-align:middle;">
-              </div>
-            </div>
-            <div class="hint">Placeholder audio. Poi lo sostituiamo con un loop reale.</div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SCENE -->
-      <section class="panel scene" aria-label="Scena e narrazione">
-        <div class="panel-header">
-          <div class="panel-title">Master Log <span class="tag" id="sceneTag">TAVERNA</span></div>
-          <div class="panel-tools">
-            <button class="btn mini" id="btnAdvance">AVANZA</button>
-            <button class="btn mini" id="btnResetLog">RESET LOG</button>
-          </div>
-        </div>
-
-        <div class="log">
-          <div class="boxline" id="sceneBox">
-            <div id="sceneText"></div>
-            <div class="prompt">► Cosa fai?</div>
-          </div>
-
-          <div class="subpanel">
-            <div class="subhead"><span>Log</span><span class="pill" id="logCount">0</span></div>
-            <div id="history" style="font-size:12px; color:var(--muted); line-height:1.35;"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SHEET -->
-      <section class="panel sheet" aria-label="Scheda personaggio">
-        <div class="panel-header">
-          <div class="panel-title">PG <span class="tag">SHEET</span></div>
-          <div class="panel-tools">
-            <button class="btn mini" id="btnPortrait">RITRATTO</button>
-          </div>
-        </div>
-
-        <div class="sheet-grid">
-          <div class="subpanel">
-            <div class="big" id="pgName">EST</div>
-            <div class="small" id="pgMeta">Warlock • Lv 3 • “Occhio di Gelo”</div>
-
-            <div class="stats">
-              <div class="stat">
-                <div class="n">Corpo</div>
-                <div class="v" id="stBody">+1</div>
-              </div>
-              <div class="stat">
-                <div class="n">Mente</div>
-                <div class="v" id="stMind">+2</div>
-              </div>
-              <div class="stat">
-                <div class="n">Ombra</div>
-                <div class="v" id="stShade">+3</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="subpanel">
-            <div class="subhead"><span>Talenti</span><span class="pill">3</span></div>
-            <div class="list" id="talentsList"></div>
-          </div>
-
-          <div class="subpanel">
-            <div class="subhead"><span>Inventario</span><span class="pill" id="invCount">—</span></div>
-            <div class="list" id="invList"></div>
-          </div>
-
-          <div class="subpanel">
-            <div class="subhead"><span>Stato run</span><span class="pill" id="runPill">—</span></div>
-            <div class="hint" id="runHint">—</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- COMMAND BAR -->
-      <section class="panel command" aria-label="Command bar">
-        <div class="panel-header">
-          <div class="panel-title">Input <span class="tag">COMMAND</span></div>
-          <div class="panel-tools">
-            <button class="btn mini" id="btnSend">INVIA</button>
-          </div>
-        </div>
-
-        <div class="tabs" role="tablist" aria-label="Azioni rapide">
-          <button class="btn tab active" data-mode="PARLA">PARLA</button>
-          <button class="btn tab" data-mode="AGISCI">AGISCI</button>
-          <button class="btn tab" data-mode="OSSERVA">OSSERVA</button>
-          <button class="btn tab" data-mode="RISCHIO">RISCHIO</button>
-        </div>
-
-        <div class="cmdrow">
-          <input class="input" id="cmd" placeholder="Cosa fai?" autocomplete="off" />
-          <button class="btn primary" id="btnCommit">OK</button>
-        </div>
-
-        <div class="quick" aria-label="Suggerimenti rapidi">
-          <button class="btn btnq" data-q="Chiedo voci al bancone.">Chiedo voci</button>
-          <button class="btn btnq" data-q="Offro monete per un’informazione.">Offro monete</button>
-          <button class="btn btnq" data-q="Mi siedo in ombra e ascolto.">Mi siedo in ombra</button>
-          <button class="btn btnq" data-q="Fisso qualcuno finché distoglie lo sguardo.">Pressione</button>
-        </div>
-
-        <div class="hint">
-          Narrativo: se non c’è rischio, il Master risponde e basta. Se c’è rischio, ti chiede un tiro con due stat possibili.
-        </div>
-      </section>
-
+    <h3>Attributi</h3>
+    <div class="stat-box">
+        <div>VITA: <span id="p-hp">20/20</span></div>
+        <div>ORO: <span id="p-gold">10</span></div>
     </div>
-  </div>
+</div>
 
-  <script>
-    const $ = (s) => document.querySelector(s);
+<div id="main-game">
+    <div id="log">
+        </div>
+</div>
 
-    // ----------------------------
-    // STATE
-    // ----------------------------
-    const STORE_KEY = "ERA_CPS2_RUN_V3_NARRATIVE_2STATS";
+<div id="actions">
+    <h3>Azioni</h3>
+    <div id="button-container">
+        </div>
+</div>
 
-    const defaultState = () => ({
-      session: 1,
-      mode: "AGISCI",
-      scene: "TAVERNA",
-      step: 0,
-      pg: {
-        name: "EST",
-        meta: "Warlock • Lv 3 • “Occhio di Gelo”",
-        stats: { CORPO: 1, MENTE: 2, OMBRA: 3 },
-        talents: ["Patto", "Inganno", "Sangue Freddo"],
-        inventory: ["Monete: 12", "Pugnale", "Torcia ×2", "Filo & Ago"]
-      },
-      res: { hp: 15, hpMax: 15, sta: 11, staMax: 11, fate: 3, fateMax: 5 },
-      flags: { wanted: false, curse: "—", debt: 2, rumors: 1, coins: 12 },
-      regionPct: 40,
-      lastRoll: null,
-      pendingCheck: null, // {statA, statB, dc, stake, mode}
-      history: []
-    });
+<script>
+    const log = document.getElementById('log');
+    const btnContainer = document.getElementById('button-container');
 
-    let S = defaultState();
+    let p = { name: "Viandante", hp: 20, gold: 10, loc: "start" };
 
-    // ----------------------------
-    // UI refs
-    // ----------------------------
-    const sessionChip = $("#sessionChip");
-    const sceneTag = $("#sceneTag");
-    const sceneBox = $("#sceneBox");
-    const sceneText = $("#sceneText");
-
-    const barHP = $("#barHP"), barSTA = $("#barSTA"), barFATE = $("#barFATE");
-    const hpVal = $("#hpVal"), staVal = $("#staVal"), fateVal = $("#fateVal");
-    const regionPill = $("#regionPill");
-
-    const debtPill = $("#debtPill"), flagWanted = $("#flagWanted"), flagCurse = $("#flagCurse"),
-          flagRumors = $("#flagRumors"), flagCoins = $("#flagCoins");
-
-    const rollPanel = $("#rollPanel"), rollResultPill = $("#rollResultPill"),
-          rollD20 = $("#rollD20"), rollMOD = $("#rollMOD"), rollDC = $("#rollDC"), rollOUT = $("#rollOUT");
-    const pendingHint = $("#pendingHint");
-    const btnRollA = $("#btnRollA"), btnRollB = $("#btnRollB"), btnRollOverride = $("#btnRollOverride");
-    const selStat = $("#selStat"), selDC = $("#selDC");
-
-    const pgName = $("#pgName"), pgMeta = $("#pgMeta"),
-          stBody = $("#stBody"), stMind = $("#stMind"), stShade = $("#stShade");
-    const talentsList = $("#talentsList"), invList = $("#invList"), invCount = $("#invCount");
-    const runPill = $("#runPill"), runHint = $("#runHint");
-
-    const historyEl = $("#history"), logCount = $("#logCount");
-    const cmd = $("#cmd");
-
-    // ----------------------------
-    // Narrative banks (no AI yet)
-    // ----------------------------
-    const N = {
-      TAVERNA: [
-        "[TAVERNA // GETTONE]\nL’aria sa di birra stanca e legno bagnato.\nDietro al bancone, l’oste ti misura senza fretta.\nUn tavolo ride troppo forte.\nQualcuno sussurra una parola che non dovrebbe essere lì.",
-        "Una moneta gira sul banco e si ferma sul taglio.\n“Parla,” dice l’oste. “Ma scegli bene con chi.”",
-        "Nel rumore, senti il vuoto.\nQuel vuoto che anticipa i guai."
-      ],
-      SCELTA: [
-        "[SCELTA]\nDue piste.\nUna è facile e ti rende povero.\nL’altra è sporca e ti rende noto.\nLa taverna ti guarda scegliere.",
-      ],
-      CONFLITTO: [
-        "[CONFLITTO]\nQualcuno ti blocca il passo.\nNon alza la voce. Non serve.\nTi sta misurando: quanto sei disposto a rischiare?",
-      ],
-      ESITO: [
-        "[ESITO]\nLa taverna non dimentica.\nE neppure tu.",
-      ]
-    };
-
-    // ----------------------------
-    // Helpers
-    // ----------------------------
-    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
-
-    function persist(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(S)); }catch(e){} }
-    function load(){ try{ const raw = localStorage.getItem(STORE_KEY); if(!raw) return false; S = JSON.parse(raw); return true; }catch(e){ return false; } }
-
-    function escapeHtml(str){
-      return str.replace(/[&<>"']/g, (m) => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
+    function write(text) {
+        const p = document.createElement('p');
+        p.innerHTML = text;
+        log.appendChild(p);
+        log.scrollTop = log.scrollHeight;
     }
 
-    function fxBlink(el){ el.classList.remove("fx-blink"); void el.offsetWidth; el.classList.add("fx-blink"); }
-    function fxShake(el){ el.classList.remove("fx-shake"); void el.offsetWidth; el.classList.add("fx-shake"); }
-
-    async function typeChunk(text){
-      sceneText.textContent = "";
-      const chars = text.split("");
-      for (let i=0; i<chars.length; i++){
-        sceneText.textContent += chars[i];
-        const c = chars[i];
-        let t = 12;
-        if (c === "\n") t = 40;
-        if (c === "." || c === "," || c === ":" || c === "—") t = 55;
-        await new Promise(r => setTimeout(r, t));
-      }
+    function setActions(actions) {
+        btnContainer.innerHTML = "";
+        actions.forEach(a => {
+            const btn = document.createElement('button');
+            btn.innerText = a.label;
+            btn.onclick = a.fn;
+            btnContainer.appendChild(btn);
+        });
     }
 
-    function setSession(n){
-      S.session = n;
-      sessionChip.textContent = "SESSION: " + String(S.session).padStart(4,"0");
+    function start() {
+        write("Ti trovi all'ingresso di una locanda dimenticata dalle mappe. Il fumo esce pigro dal camino di pietra. Non ricordi come sei arrivato qui, ma il freddo ti spinge a entrare.");
+        setActions([
+            { label: "Entra nella Locanda", fn: enterTavern },
+            { label: "Esamina i dintorni", fn: lookAround }
+        ]);
     }
 
-    function pushHistory(entry){
-      S.history.unshift(entry);
-      if (S.history.length > 14) S.history.pop();
-      renderHistory();
-      persist();
+    function enterTavern() {
+        write("<br><b>La porta cigola.</b> All'interno, poche candele illuminano i tavoli di legno massiccio. L'oste ti osserva pulendo un boccale sporco.");
+        document.getElementById('p-name').innerText = "Gualtiero";
+        setActions([
+            { label: "Parla con l'Oste", fn: talkHost },
+            { label: "Siediti al tavolo", fn: sitDown }
+        ]);
     }
 
-    function syncCoinsToInventory(){
-      const idx = S.pg.inventory.findIndex(x => x.toLowerCase().startsWith("monete:"));
-      if (idx >= 0) S.pg.inventory[idx] = "Monete: " + S.flags.coins;
-      else S.pg.inventory.unshift("Monete: " + S.flags.coins);
+    function lookAround() {
+        write("<br>C'è un vecchio avviso logoro sul muro esterno: <i>'Cercasi eroi per la miniera d'argento'</i>.");
     }
 
-    // ----------------------------
-    // Rendering
-    // ----------------------------
-    function renderBars(){
-      const hpPct = (S.res.hp / S.res.hpMax) * 100;
-      const staPct = (S.res.sta / S.res.staMax) * 100;
-      const fatePct = (S.res.fate / S.res.fateMax) * 100;
-      barHP.style.width = hpPct + "%";
-      barSTA.style.width = staPct + "%";
-      barFATE.style.width = fatePct + "%";
-      hpVal.textContent = S.res.hp + "/" + S.res.hpMax;
-      staVal.textContent = S.res.sta + "/" + S.res.staMax;
-      fateVal.textContent = S.res.fate + "/" + S.res.fateMax;
-      regionPill.textContent = "REGION " + S.regionPct + "%";
+    function talkHost() {
+        write("<br>L'Oste dice: 'Benvenuto all'Antro. Se hai oro, ho storie da vendere.'");
+        setActions([
+            { label: "Chiedi della miniera", fn: () => write("<br>'È un posto maledetto,' risponde cupo.") },
+            { label: "Compra da bere (-2 Oro)", fn: () => {
+                p.gold -= 2;
+                document.getElementById('p-gold').innerText = p.gold;
+                write("<br>Il liquido scende bruciando. Ti senti più forte.");
+            }}
+        ]);
     }
 
-    function renderFlags(){
-      debtPill.textContent = "DEBT: " + S.flags.debt;
-      flagWanted.textContent = S.flags.wanted ? "YES" : "NO";
-      flagCurse.textContent = S.flags.curse;
-      flagRumors.textContent = String(S.flags.rumors);
-      flagCoins.textContent = String(S.flags.coins);
-    }
+    start();
+</script>
 
-    function renderPending(){
-      if (!S.pendingCheck){
-        pendingHint.textContent = "Nessun tiro richiesto.";
-        btnRollA.textContent = "TIRA (A)";
-        btnRollB.textContent = "TIRA (B)";
-        btnRollA.disabled = true;
-        btnRollB.disabled = true;
-        btnRollOverride.disabled = true;
-        btnRollA.style.opacity = .5;
-        btnRollB.style.opacity = .5;
-        btnRollOverride.style.opacity = .5;
-        return;
-      }
-
-      const p = S.pendingCheck;
-      pendingHint.textContent = `TIRO RICHIESTO — DC ${p.dc}: ${p.stake}`;
-      btnRollA.textContent = `TIRA con ${p.statA}`;
-      btnRollB.textContent = `TIRA con ${p.statB}`;
-      btnRollA.disabled = false;
-      btnRollB.disabled = false;
-      btnRollOverride.disabled = false;
-      btnRollA.style.opacity = 1;
-      btnRollB.style.opacity = 1;
-      btnRollOverride.style.opacity = 1;
-
-      // prefill overrides
-      selStat.value = p.statA;
-      selDC.value = String(p.dc);
-    }
-
-    function renderRoll(){
-      if (!S.lastRoll){
-        rollResultPill.className = "pill warn";
-        rollResultPill.textContent = "—";
-        rollD20.textContent = "—";
-        rollMOD.textContent = "+0";
-        rollDC.textContent = "—";
-        rollOUT.textContent = "—";
-        return;
-      }
-      const r = S.lastRoll;
-      rollD20.textContent = String(r.d20);
-      rollMOD.textContent = (r.mod>=0?"+":"") + r.mod;
-      rollDC.textContent = String(r.dc);
-      rollOUT.textContent = r.ok ? "SUCCESSO" : "FALLIMENTO";
-      rollResultPill.className = "pill " + (r.ok ? "good" : "bad");
-      rollResultPill.textContent = r.ok ? "✓ OK" : "✗ NO";
-    }
-
-    function renderSheet(){
-      pgName.textContent = S.pg.name;
-      pgMeta.textContent = S.pg.meta;
-      stBody.textContent = (S.pg.stats.CORPO>=0?"+":"") + S.pg.stats.CORPO;
-      stMind.textContent = (S.pg.stats.MENTE>=0?"+":"") + S.pg.stats.MENTE;
-      stShade.textContent = (S.pg.stats.OMBRA>=0?"+":"") + S.pg.stats.OMBRA;
-
-      talentsList.innerHTML = S.pg.talents.map(t => `<span class="token">${escapeHtml(t)}</span>`).join("");
-      invList.innerHTML = S.pg.inventory.map(i => `<span class="token">${escapeHtml(i)}</span>`).join("");
-      invCount.textContent = String(S.pg.inventory.length);
-
-      if (S.res.hp <= 0){
-        runPill.className = "pill bad";
-        runPill.textContent = "K.O.";
-        runHint.textContent = "Sei a terra. NEW RUN per ripartire (FATE revival lo aggiungiamo dopo).";
-      } else {
-        runPill.className = "pill good";
-        runPill.textContent = "ATTIVO";
-        runHint.textContent = `Scena: ${S.scene}. Rumors ${S.flags.rumors}. Debt ${S.flags.debt}.`;
-      }
-    }
-
-    function renderHistory(){
-      historyEl.innerHTML = S.history.map(h => "• " + escapeHtml(h)).join("<br>");
-      logCount.textContent = String(S.history.length);
-    }
-
-    function renderAll(){
-      setSession(S.session);
-      sceneTag.textContent = S.scene;
-      renderBars();
-      renderFlags();
-      renderPending();
-      renderRoll();
-      renderSheet();
-      renderHistory();
-    }
-
-    // ----------------------------
-    // Core mechanics
-    // ----------------------------
-    function d20(){ return Math.floor(Math.random()*20) + 1; }
-    function statMod(stat){ return S.pg.stats[stat] ?? 0; }
-
-    function advanceSceneTrack(){
-      if (S.scene === "TAVERNA") S.scene = "SCELTA";
-      else if (S.scene === "SCELTA") S.scene = "CONFLITTO";
-      else if (S.scene === "CONFLITTO") S.scene = "ESITO";
-      else S.scene = "TAVERNA";
-    }
-
-    function softConsequence(mode){
-      if (mode === "OSSERVA"){
-        if (Math.random() < 0.45){
-          S.flags.rumors = clamp(S.flags.rumors + 1, 0, 9);
-          pushHistory("Soft: cogli un dettaglio (Rumors +1).");
-        }
-      }
-      if (mode === "PARLA"){
-        if (Math.random() < 0.35 && S.flags.debt > 0){
-          S.flags.debt = clamp(S.flags.debt - 1, 0, 99);
-          pushHistory("Soft: limi un credito (Debt -1).");
-        }
-      }
-      if (S.res.sta > 0 && Math.random() < 0.25){
-        S.res.sta = clamp(S.res.sta - 1, 0, S.res.staMax);
-        pushHistory("Soft: ti stanchi (STA -1).");
-      }
-
-      S.regionPct = clamp(S.regionPct + 5, 0, 100);
-      if (S.regionPct >= 100){
-        S.regionPct = 40;
-        S.scene = "TAVERNA";
-        pushHistory("Progress: giri chiuso. Torni al respiro della taverna.");
-      } else {
-        advanceSceneTrack();
-      }
-
-      syncCoinsToInventory();
-      renderAll();
-      persist();
-    }
-
-    function hardConsequence(mode, ok){
-      if (ok){
-        if (mode === "OSSERVA"){
-          S.flags.rumors = clamp(S.flags.rumors + 1, 0, 9);
-          pushHistory("Esito: trovi una pista vera (Rumors +1).");
-        }
-        if (mode === "PARLA"){
-          if (S.flags.debt > 0 && Math.random() < 0.6){
-            S.flags.debt = clamp(S.flags.debt - 1, 0, 99);
-            pushHistory("Esito: chiudi un conto (Debt -1).");
-          } else {
-            S.flags.rumors = clamp(S.flags.rumors + 1, 0, 9);
-            pushHistory("Esito: ottieni un nome/luogo (Rumors +1).");
-          }
-        }
-        if (mode === "AGISCI"){
-          const c = 2 + (Math.random() < 0.5 ? 0 : 1);
-          S.flags.coins += c;
-          pushHistory(`Esito: bottino (Coins +${c}).`);
-        }
-        if (mode === "RISCHIO"){
-          const c = 3 + (Math.random() < 0.5 ? 0 : 1);
-          S.flags.coins += c;
-          S.flags.rumors = clamp(S.flags.rumors + 1, 0, 9);
-          pushHistory(`Esito: guadagno sporco (Coins +${c}, Rumors +1).`);
-        }
-
-        S.regionPct = clamp(S.regionPct + 10, 0, 100);
-        if (S.regionPct >= 100){
-          S.regionPct = 40;
-          S.scene = "TAVERNA";
-          pushHistory("Progress: giri chiuso. Torni al respiro della taverna.");
-        } else {
-          advanceSceneTrack();
-        }
-
-      } else {
-        if (mode === "OSSERVA"){
-          S.flags.debt = clamp(S.flags.debt + 1, 0, 99);
-          if (Math.random() < 0.35) S.flags.wanted = true;
-          pushHistory("Esito: ti notano (Debt +1).");
-        }
-        if (mode === "PARLA"){
-          if (S.flags.coins >= 2){
-            S.flags.coins -= 2;
-            pushHistory("Esito: paghi per evitare guai (Coins -2).");
-          } else {
-            S.flags.debt = clamp(S.flags.debt + 2, 0, 99);
-            pushHistory("Esito: ti segnano (Debt +2).");
-          }
-        }
-        if (mode === "AGISCI"){
-          S.res.hp = clamp(S.res.hp - 2, 0, S.res.hpMax);
-          pushHistory("Esito: prendi un colpo (HP -2).");
-        }
-        if (mode === "RISCHIO"){
-          S.res.hp = clamp(S.res.hp - 4, 0, S.res.hpMax);
-          S.flags.wanted = true;
-          pushHistory("Esito: casino (HP -4, Wanted YES).");
-        }
-
-        S.res.sta = clamp(S.res.sta - 1, 0, S.res.staMax);
-        S.regionPct = clamp(S.regionPct - 5, 0, 100);
-      }
-
-      syncCoinsToInventory();
-      renderAll();
-      persist();
-    }
-
-    function rollResolve(stat, dc, mode, stakeText){
-      if (S.res.hp <= 0){
-        pushHistory("Sei K.O. Non puoi agire.");
-        return null;
-      }
-
-      const mod = statMod(stat);
-      const d = d20();
-      const total = d + mod;
-      const ok = total >= dc;
-
-      S.lastRoll = { d20: d, mod, stat, dc, total, ok, mode };
-      fxBlink(rollPanel);
-      if (!ok) fxShake(sceneBox);
-
-      pushHistory(`Tiro: ${stat} vs DC ${dc} (${stakeText || "posta"}) → d20 ${d} ${(mod>=0?"+":"") + mod} = ${total} → ${ok ? "SUCCESSO" : "FALLIMENTO"}`);
-
-      // clear pending
-      S.pendingCheck = null;
-      renderPending();
-      renderRoll();
-      persist();
-
-      hardConsequence(mode, ok);
-      return ok;
-    }
-
-    // ----------------------------
-    // Risk detection (narrativo)
-    // ----------------------------
-    function detectModeFromText(text){
-      const t = text.toLowerCase();
-      if (t.includes("ascolto") || t.includes("spio") || t.includes("osservo") || t.includes("ombra")) return "OSSERVA";
-      if (t.includes("chiedo") || t.includes("parlo") || t.includes("negozio") || t.includes("convinc")) return "PARLA";
-      if (t.includes("risch") || t.includes("azzard") || t.includes("forzo") || t.includes("minaccio") || t.includes("ricatto")) return "RISCHIO";
-      return S.mode;
-    }
-
-    function estimateRisk(text, mode){
-      const t = text.toLowerCase();
-      const high = ["minaccio","colpisco","attacco","forzo","rompo","scasso","rub","uccid","pugnale","arma","sangue","ricatto","fuga","salto","rischio","azzardo","sfido"];
-      const mid  = ["spio","seguo","inganno","mento","infiltr","scivolo","mi intrufolo","nascondo","borseggio","offro monete","corrompo","provoco"];
-      const low  = ["chiedo","saluto","ascolto","osservo","mi siedo","guardo","parlo"];
-
-      let score = 0;
-      for (const w of high) if (t.includes(w)) score += 3;
-      for (const w of mid)  if (t.includes(w)) score += 2;
-      for (const w of low)  if (t.includes(w)) score += 1;
-
-      if (mode === "RISCHIO") score += 3;
-      if (mode === "AGISCI") score += 1;
-
-      if (S.res.sta <= 3) score += 1;
-      if (S.flags.wanted) score += 1;
-
-      const rollRequired = score >= 5;
-      let dc = 12;
-      if (score >= 8) dc = 14;
-      if (score >= 11) dc = 16;
-      if (!rollRequired) dc = 0;
-
-      return { rollRequired, dc, score };
-    }
-
-    function makeStake(mode){
-      if (mode === "PARLA") return "Se fallisci: paghi o ti segni un debito.";
-      if (mode === "OSSERVA") return "Se fallisci: ti notano.";
-      if (mode === "AGISCI") return "Se fallisci: ti fai male.";
-      if (mode === "RISCHIO") return "Se fallisci: sangue e Wanted.";
-      return "Se fallisci: paghi un prezzo.";
-    }
-
-    function statsForCheck(mode){
-      // A = naturale, B = alternativa “sensata”
-      // PARLA: MENTE / OMBRA (mentire, intimidire sottile)
-      // OSSERVA: OMBRA / MENTE (intuizione, deduzione)
-      // AGISCI: CORPO / OMBRA (destrezza, furtività)
-      // RISCHIO: OMBRA / CORPO (scatto, forza disperata)
-      if (mode === "PARLA") return ["MENTE","OMBRA"];
-      if (mode === "OSSERVA") return ["OMBRA","MENTE"];
-      if (mode === "AGISCI") return ["CORPO","OMBRA"];
-      if (mode === "RISCHIO") return ["OMBRA","CORPO"];
-      return ["OMBRA","MENTE"];
-    }
-
-    // ----------------------------
-    // Scene
-    // ----------------------------
-    async function sceneAdvance(force=false){
-      sceneTag.textContent = S.scene;
-      const bank = N[S.scene] || N.TAVERNA;
-      const text = bank[S.step % bank.length];
-      if (!force) fxBlink(sceneBox);
-      await typeChunk(text);
-      S.step++;
-      persist();
-      renderAll();
-    }
-
-    // ----------------------------
-    // Commands (narrativo)
-    // ----------------------------
-    async function handlePlayerAction(text){
-      if (S.res.hp <= 0){
-        pushHistory("Sei K.O. Non puoi agire.");
-        return;
-      }
-
-      if (S.pendingCheck){
-        pushHistory("MASTER: Prima risolvi il tiro richiesto.");
-        fxBlink(rollPanel);
-        return;
-      }
-
-      const mode = detectModeFromText(text);
-      const risk = estimateRisk(text, mode);
-
-      pushHistory("Tu: " + text);
-
-      if (!risk.rollRequired){
-        const reply =
-          mode === "PARLA"   ? "MASTER: Ti ascoltano. Non tutti con le stesse intenzioni."
-        : mode === "OSSERVA" ? "MASTER: Vedi abbastanza da capire cosa evitare."
-        : mode === "AGISCI"  ? "MASTER: Ti muovi. Il mondo non si ferma per te."
-        : "MASTER: Fai un passo che potrebbe costare. Ma non ancora.";
-
-        await typeChunk(reply + "\n");
-        softConsequence(mode);
-        await sceneAdvance(true);
-        return;
-      }
-
-      const dc = risk.dc;
-      const stake = makeStake(mode);
-      const [statA, statB] = statsForCheck(mode);
-
-      S.pendingCheck = { statA, statB, dc, stake, mode };
-      persist();
-      renderPending();
-
-      const ask = `MASTER: Qui serve un tiro.\n► DC ${dc}\n► Scegli: ${statA} oppure ${statB}\n► Posta: ${stake}`;
-      await typeChunk(ask + "\n");
-      fxBlink(rollPanel);
-      pushHistory(`MASTER: Tiro richiesto (DC ${dc}, ${statA} / ${statB}).`);
-    }
-
-    // ----------------------------
-    // Audio placeholder
-    // ----------------------------
-    let audioOn = false;
-    let audioCtx = null;
-    let osc = null;
-    let gain = null;
-
-    function ensureAudio(){
-      if (audioCtx) return;
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      osc = audioCtx.createOscillator();
-      gain = audioCtx.createGain();
-      osc.type = "triangle";
-      osc.frequency.value = 110;
-      gain.gain.value = 0.0;
-      osc.connect(gain).connect(audioCtx.destination);
-      osc.start();
-      setVol();
-    }
-    function setVol(){
-      const v = Number($("#vol").value) / 100;
-      if (gain) gain.gain.value = audioOn ? (v * 0.06) : 0.0;
-    }
-    $("#vol").addEventListener("input", setVol);
-
-    // ----------------------------
-    // Events
-    // ----------------------------
-    document.querySelectorAll(".tab").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
-        btn.classList.add("active");
-        S.mode = btn.dataset.mode;
-        cmd.placeholder = ({
-          PARLA: "Cosa dici?",
-          AGISCI: "Cosa fai?",
-          OSSERVA: "Cosa osservi?",
-          RISCHIO: "Cosa rischi?"
-        }[S.mode] || "Cosa fai?");
-        cmd.focus();
-        persist();
-      });
-    });
-
-    document.querySelectorAll(".btnq").forEach(btn=>{
-      btn.addEventListener("click", ()=>{
-        cmd.value = btn.dataset.q || "";
-        cmd.focus();
-      });
-    });
-
-    async function commit(){
-      const v = cmd.value.trim();
-      if (!v) return;
-      cmd.value = "";
-      await handlePlayerAction(v);
-    }
-
-    $("#btnCommit").addEventListener("click", commit);
-    $("#btnSend").addEventListener("click", commit);
-    $("#cmd").addEventListener("keydown", (e)=>{
-      if (e.key === "Enter"){
-        e.preventDefault();
-        commit();
-      }
-    });
-
-    async function resolveWithStat(stat){
-      if (!S.pendingCheck){
-        pushHistory("SYSTEM: nessun tiro richiesto.");
-        fxBlink(rollPanel);
-        return;
-      }
-      const dc = S.pendingCheck.dc;
-      const mode = S.pendingCheck.mode;
-      const stake = S.pendingCheck.stake;
-
-      const ok = rollResolve(stat, dc, mode, stake);
-      if (ok !== null){
-        await typeChunk(ok ? "MASTER: Va bene. Per ora.\n" : "MASTER: No. E adesso paghi.\n");
-        await sceneAdvance(true);
-      }
-    }
-
-    btnRollA.addEventListener("click", ()=> resolveWithStat(S.pendingCheck?.statA));
-    btnRollB.addEventListener("click", ()=> resolveWithStat(S.pendingCheck?.statB));
-
-    btnRollOverride.addEventListener("click", ()=> {
-      if (!S.pendingCheck){
-        pushHistory("SYSTEM: nessun tiro richiesto.");
-        fxBlink(rollPanel);
-        return;
-      }
-      // override is allowed
-      resolveWithStat(selStat.value);
-    });
-
-    $("#btnAdvance").addEventListener("click", ()=> sceneAdvance());
-    $("#btnResetLog").addEventListener("click", ()=>{
-      S.history = [];
-      renderHistory();
-      persist();
-    });
-
-    $("#btnSave").addEventListener("click", ()=>{
-      persist();
-      pushHistory("SYSTEM: salvato.");
-      fxBlink(sceneBox);
-    });
-
-    $("#btnLoad").addEventListener("click", async ()=>{
-      const ok = load();
-      if (ok){
-        renderAll();
-        pushHistory("SYSTEM: caricato.");
-        fxBlink(sceneBox);
-        await sceneAdvance(true);
-      } else {
-        pushHistory("SYSTEM: nessun salvataggio trovato.");
-      }
-    });
-
-    $("#btnNew").addEventListener("click", async ()=>{
-      S = defaultState();
-      persist();
-      renderAll();
-      pushHistory("RUN: nuova partita.");
-      await sceneAdvance(true);
-    });
-
-    $("#btnPortrait").addEventListener("click", ()=>{
-      pushHistory("Ritratto: placeholder — qui innestiamo la generazione immagine.");
-      fxBlink(sceneBox);
-    });
-
-    $("#btnPlayPause").addEventListener("click", async ()=>{
-      ensureAudio();
-      if (audioCtx.state === "suspended") await audioCtx.resume();
-      audioOn = !audioOn;
-      $("#audioOnOff").textContent = audioOn ? "ON" : "OFF";
-      $("#btnPlayPause").textContent = audioOn ? "⏸ PAUSE" : "⏵ PLAY";
-      setVol();
-    });
-
-    // ----------------------------
-    // Init
-    // ----------------------------
-    (function init(){
-      const has = load();
-      if (!has){
-        S = defaultState();
-        persist();
-      }
-      renderAll();
-      // enable roll buttons based on pending
-      renderPending();
-      sceneAdvance(true);
-      if (!has) pushHistory("RUN: iniziata.");
-    })();
-  </script>
 </body>
 </html>
