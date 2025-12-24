@@ -2,176 +2,407 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L'ANTRO DEL VIANDANTE</title>
+    <title>La Taverna di Gregorio - Versione Italiana</title>
     <style>
-        :root {
-            --bg-color: #0d0d0d;
-            --panel-bg: #1a1a1a;
-            --text-color: #d1c7a7; /* Color pergamena antica */
-            --accent: #8b0000; /* Rosso scuro */
-            --border: #333;
-        }
-
+        /* --- ESTETICA OLD GREG'S --- */
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Georgia', serif;
+            background-color: #121212; /* Nero profondo */
+            color: #b0b0b0; /* Grigio chiaro */
+            font-family: "Times New Roman", Times, serif;
             margin: 0;
-            display: flex;
             height: 100vh;
+            display: flex;
             overflow: hidden;
+            font-size: 15px;
         }
 
-        /* Pannello Sinistro: Statistiche */
-        #sidebar {
-            width: 250px;
-            background: var(--panel-bg);
-            border-right: 2px solid var(--border);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        /* Scrollbar personalizzata scura */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb { background: #444; }
 
-        .stat-box {
-            border: 1px solid var(--accent);
-            padding: 10px;
-            background: rgba(0,0,0,0.3);
-        }
-
-        /* Area Centrale: Diario di Gioco */
-        #main-game {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 40px;
-            overflow-y: auto;
-            background: radial-gradient(circle, #1a1a1a 0%, #0d0d0d 100%);
-        }
-
-        #log {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        /* Pannello Destro: Azioni */
-        #actions {
-            width: 300px;
-            background: var(--panel-bg);
-            border-left: 2px solid var(--border);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        /* LINK E BOTTONI STYLE */
+        a { color: #d4af37; text-decoration: none; cursor: pointer; }
+        a:hover { text-decoration: underline; color: #fff; }
 
         button {
-            background: transparent;
-            border: 1px solid var(--text-color);
-            color: var(--text-color);
-            padding: 12px;
+            background: #2a2a2a;
+            border: 1px solid #555;
+            color: #d4af37;
+            padding: 5px 10px;
             cursor: pointer;
-            font-family: 'Georgia', serif;
-            transition: 0.3s;
-            text-align: left;
+            font-family: inherit;
+            margin: 2px;
+            font-size: 13px;
+        }
+        button:hover { background: #333; border-color: #d4af37; }
+        button:disabled { color: #555; border-color: #333; cursor: not-allowed; }
+
+        /* LAYOUT A 3 COLONNE */
+        #col-left, #col-right {
+            width: 250px;
+            background-color: #181818;
+            border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
         }
 
-        button:hover {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
+        #col-center {
+            flex: 1;
+            background-color: #0e0e0e; /* Leggermente più scuro per il log */
+            border-left: 1px solid #333;
+            border-right: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
         }
 
-        h2, h3 { color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
-        .sep { height: 2px; background: var(--accent); margin: 10px 0; }
+        /* ELEMENTI UI */
+        h2 {
+            color: #d4af37; /* Oro antico */
+            border-bottom: 1px solid #444;
+            font-size: 16px;
+            padding-bottom: 5px;
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-row { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 14px; }
+        .stat-val { color: #eee; font-weight: bold; }
+        
+        /* LOG MESSAGGI */
+        .log-entry { margin-bottom: 10px; line-height: 1.4; border-bottom: 1px solid #222; padding-bottom: 5px; }
+        .log-combat { color: #e57373; } /* Rosso tenue */
+        .log-loot { color: #81c784; } /* Verde tenue */
+        .log-info { color: #64b5f6; } /* Blu tenue */
+
+        /* SISTEMA TAB (A DESTRA) */
+        .tabs { display: flex; border-bottom: 1px solid #444; margin-bottom: 10px; }
+        .tab-btn {
+            flex: 1;
+            background: #1a1a1a;
+            border: none;
+            color: #777;
+            padding: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .tab-btn.active { color: #d4af37; border-bottom: 2px solid #d4af37; font-weight: bold; }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* INVENTARIO */
+        .inv-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            padding: 5px 0;
+            font-size: 13px;
+        }
     </style>
 </head>
 <body>
 
-<div id="sidebar">
-    <h2>Eroe</h2>
-    <div class="stat-box">
-        <div>NOME: <span id="p-name">???</span></div>
-        <div>RUOLO: <span id="p-class">Straniero</span></div>
-    </div>
-    <h3>Attributi</h3>
-    <div class="stat-box">
-        <div>VITA: <span id="p-hp">20/20</span></div>
-        <div>ORO: <span id="p-gold">10</span></div>
+<div id="col-left">
+    <h2>Personaggio</h2>
+    <div class="stat-row"><span>Nome:</span> <span class="stat-val" id="p-name">Viandante</span></div>
+    <div class="stat-row"><span>Livello:</span> <span class="stat-val" id="p-lvl">1</span></div>
+    <div class="stat-row"><span>XP:</span> <span class="stat-val" id="p-xp">0 / 100</span></div>
+    <br>
+    <h2>Condizione</h2>
+    <div class="stat-row"><span>Salute (HP):</span> <span class="stat-val" id="p-hp">20 / 20</span></div>
+    <div class="stat-row"><span>Energia:</span> <span class="stat-val" id="p-en">10 / 10</span></div>
+    <div class="stat-row"><span>Oro:</span> <span class="stat-val" style="color: gold;" id="p-gold">0</span></div>
+    <br>
+    <h2>Attributi</h2>
+    <div class="stat-row"><span>Forza:</span> <span class="stat-val" id="p-str">5</span></div>
+    <div class="stat-row"><span>Destrezza:</span> <span class="stat-val" id="p-dex">5</span></div>
+    <div class="stat-row"><span>Intelletto:</span> <span class="stat-val" id="p-int">5</span></div>
+</div>
+
+<div id="col-center" id="game-log">
+    <div class="log-entry">
+        Benvenuto alla <b>Taverna di Gregorio</b>.<br>
+        Fuori piove a dirotto. L'odore di stufato stantio riempie la stanza.<br>
+        Gregorio ti osserva: "Nuova faccia, eh? Se vuoi guadagnarti da vivere, c'è la cantina infestata... o il fiume qui fuori."
     </div>
 </div>
 
-<div id="main-game">
-    <div id="log">
-        </div>
-</div>
+<div id="col-right">
+    <div class="tabs">
+        <div class="tab-btn active" onclick="switchTab('actions')">AZIONI</div>
+        <div class="tab-btn" onclick="switchTab('inventory')">ZAINO</div>
+        <div class="tab-btn" onclick="switchTab('equip')">EQUIP</div>
+    </div>
 
-<div id="actions">
-    <h3>Azioni</h3>
-    <div id="button-container">
+    <div id="tab-actions" class="tab-content active">
+        <h2>Luoghi</h2>
+        <button style="width:100%" onclick="explore('cantina')">Esplora Cantina (Combatti)</button>
+        <button style="width:100%" onclick="goFishing()">Vai a Pesca (Sicuro)</button>
+        <br><br>
+        <h2>Taverna</h2>
+        <button style="width:100%" onclick="rest()">Riposa (5 Oro)</button>
+        <button style="width:100%" onclick="alert('Gregorio: Non vendo nulla per ora.')">Mercante</button>
+    </div>
+
+    <div id="tab-inventory" class="tab-content">
+        <div id="inventory-list">
+            <p style="font-style:italic; font-size:12px;">Lo zaino è vuoto.</p>
         </div>
+    </div>
+
+    <div id="tab-equip" class="tab-content">
+        <div class="stat-row"><span>Mano Des.:</span> <span class="stat-val" id="eq-weapon">Pugni</span></div>
+        <div class="stat-row"><span>Corpo:</span> <span class="stat-val" id="eq-armor">Stracci</span></div>
+        <br>
+        <p style="font-size:12px; color:#666">Vai nello Zaino per equipaggiare gli oggetti.</p>
+    </div>
 </div>
 
 <script>
-    const log = document.getElementById('log');
-    const btnContainer = document.getElementById('button-container');
+    /* --- LOGICA DI GIOCO --- */
 
-    let p = { name: "Viandante", hp: 20, gold: 10, loc: "start" };
+    // STATO DEL GIOCATORE
+    const player = {
+        name: "Viandante",
+        lvl: 1,
+        xp: 0,
+        xpMax: 100,
+        hp: 20,
+        hpMax: 20,
+        energy: 10,
+        energyMax: 10,
+        gold: 0,
+        stats: { str: 5, dex: 5, int: 5 },
+        equipment: { weapon: null, armor: null },
+        inventory: []
+    };
 
-    function write(text) {
-        const p = document.createElement('p');
-        p.innerHTML = text;
-        log.appendChild(p);
-        log.scrollTop = log.scrollHeight;
+    // DATABASE OGGETTI (Loot)
+    const itemDB = [
+        { id: 'fish', name: 'Trota Viscida', type: 'misc', val: 2 },
+        { id: 'boot', name: 'Vecchio Stivale', type: 'misc', val: 0 },
+        { id: 'dagger', name: 'Pugnale Arrugginito', type: 'weapon', dmg: 2, val: 5 },
+        { id: 'club', name: 'Randello di Legno', type: 'weapon', dmg: 3, val: 8 },
+        { id: 'tunic', name: 'Tunica di Cuoio', type: 'armor', def: 1, val: 10 },
+        { id: 'ring', name: 'Anello d\'Ottone', type: 'misc', val: 15 }
+    ];
+
+    // DATABASE MOSTRI
+    const monsters = [
+        { name: "Ratto Gigante", hp: 10, dmg: 2, xp: 10, gold: 2, dropChance: 0.3 },
+        { name: "Slime Verde", hp: 15, dmg: 3, xp: 20, gold: 4, dropChance: 0.4 },
+        { name: "Scheletro", hp: 25, dmg: 5, xp: 35, gold: 8, dropChance: 0.5 }
+    ];
+
+    // FUNZIONI UI
+    function log(msg, type = '') {
+        const div = document.getElementById('col-center');
+        const entry = document.createElement('div');
+        entry.className = 'log-entry ' + type;
+        entry.innerHTML = msg;
+        div.appendChild(entry);
+        div.scrollTop = div.scrollHeight; // Auto-scroll
     }
 
-    function setActions(actions) {
-        btnContainer.innerHTML = "";
-        actions.forEach(a => {
-            const btn = document.createElement('button');
-            btn.innerText = a.label;
-            btn.onclick = a.fn;
-            btnContainer.appendChild(btn);
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById('tab-' + tabName).classList.add('active');
+        // Trova il bottone corrispondente (semplificazione)
+        const buttons = document.querySelectorAll('.tab-btn');
+        if(tabName === 'actions') buttons[0].classList.add('active');
+        if(tabName === 'inventory') buttons[1].classList.add('active');
+        if(tabName === 'equip') buttons[2].classList.add('active');
+        
+        if(tabName === 'inventory') renderInventory();
+    }
+
+    function updateUI() {
+        document.getElementById('p-lvl').innerText = player.lvl;
+        document.getElementById('p-xp').innerText = `${player.xp} / ${player.xpMax}`;
+        document.getElementById('p-hp').innerText = `${player.hp} / ${player.hpMax}`;
+        document.getElementById('p-en').innerText = `${player.energy} / ${player.energyMax}`;
+        document.getElementById('p-gold').innerText = player.gold;
+        
+        // Calcolo stats con equipaggiamento
+        let bonusStr = 0; // Se avessimo armi che danno forza
+        document.getElementById('p-str').innerText = player.stats.str + bonusStr;
+        document.getElementById('p-dex').innerText = player.stats.dex;
+        document.getElementById('p-int').innerText = player.stats.int;
+
+        // Equip Display
+        document.getElementById('eq-weapon').innerText = player.equipment.weapon ? player.equipment.weapon.name : "Pugni (1 dmg)";
+        document.getElementById('eq-armor').innerText = player.equipment.armor ? player.equipment.armor.name : "Abiti civili (0 def)";
+    }
+
+    // MECCANICHE
+
+    function rest() {
+        if(player.gold >= 5) {
+            player.gold -= 5;
+            player.hp = player.hpMax;
+            player.energy = player.energyMax;
+            log("Hai dormito nel fienile. Ti senti riposato.", "log-info");
+            updateUI();
+        } else {
+            log("Gregorio: 'Niente soldi, niente letto.'");
+        }
+    }
+
+    function goFishing() {
+        if(player.energy < 1) { log("Sei troppo stanco per pescare. Riposa."); return; }
+        player.energy--;
+        
+        const roll = Math.random();
+        if(roll < 0.4) {
+            log("Non hai preso nulla...");
+        } else if (roll < 0.7) {
+            addItem('boot');
+            log("Hai pescato un <b>Vecchio Stivale</b>!", "log-loot");
+        } else {
+            addItem('fish');
+            log("Hai preso una <b>Trota Viscida</b>!", "log-loot");
+        }
+        updateUI();
+    }
+
+    function explore(location) {
+        if(player.hp <= 0) { log("Sei svenuto. Devi riposare o farti curare."); return; }
+        if(player.energy < 2) { log("Sei esausto."); return; }
+        player.energy -= 2;
+
+        // Spawn mostro
+        const mBase = monsters[Math.floor(Math.random() * monsters.length)];
+        // Clona mostro per non modificare il database
+        let mob = { ...mBase }; 
+
+        log(`<br>--- COMBATTIMENTO ---<br>Un <b>${mob.name}</b> emerge dall'ombra!`);
+
+        // Combattimento automatico (Turn Based istantaneo per semplicità)
+        let round = 1;
+        while(mob.hp > 0 && player.hp > 0) {
+            // Player attacca
+            let dmg = Math.floor(Math.random() * player.stats.str) + 1;
+            if(player.equipment.weapon) dmg += player.equipment.weapon.dmg;
+            
+            mob.hp -= dmg;
+            // log(`Colpisci per ${dmg} danni.`); // Troppo spam, nascondiamo i dettagli
+
+            if(mob.hp <= 0) break;
+
+            // Mostro attacca
+            let def = player.equipment.armor ? player.equipment.armor.def : 0;
+            let mDmg = Math.max(0, (Math.floor(Math.random() * mob.dmg) + 1) - def);
+            player.hp -= mDmg;
+            // log(`Il mostro ti colpisce per ${mDmg} danni.`);
+        }
+
+        if(player.hp > 0) {
+            // Vittoria
+            log(`Hai sconfitto il <b>${mob.name}</b>!`, "log-combat");
+            player.gold += mob.gold;
+            player.xp += mob.xp;
+            
+            // Chance oggetto
+            if(Math.random() < mob.dropChance) {
+                // Drop casuale (semplificato: o pugnale o tunica)
+                const loot = Math.random() > 0.5 ? 'dagger' : 'tunic';
+                addItem(loot);
+                log(`Il mostro ha lasciato cadere: ${loot}`, "log-loot");
+            }
+            
+            checkLevelUp();
+        } else {
+            // Sconfitta
+            player.hp = 0;
+            log("Sei stato sconfitto... Ti trascini fuori dalla cantina.", "log-combat");
+        }
+        updateUI();
+    }
+
+    function checkLevelUp() {
+        if(player.xp >= player.xpMax) {
+            player.lvl++;
+            player.xp = 0;
+            player.xpMax = Math.floor(player.xpMax * 1.5);
+            player.hpMax += 5;
+            player.stats.str += 1;
+            player.stats.dex += 1;
+            player.hp = player.hpMax;
+            log(`<b>LEVEL UP!</b> Sei ora livello ${player.lvl}.`, "log-info");
+        }
+    }
+
+    // INVENTARIO
+    function addItem(id) {
+        const item = itemDB.find(i => i.id === id);
+        player.inventory.push({ ...item, uid: Date.now() + Math.random() }); // Unique ID per gestire duplicati
+    }
+
+    function renderInventory() {
+        const list = document.getElementById('inventory-list');
+        list.innerHTML = "";
+        
+        if(player.inventory.length === 0) {
+            list.innerHTML = "<p>Vuoto.</p>";
+            return;
+        }
+
+        player.inventory.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'inv-item';
+            
+            let actionBtn = "";
+            if(item.type === 'weapon' || item.type === 'armor') {
+                actionBtn = `<button onclick="equipItem(${index})">Equip</button>`;
+            }
+            const sellBtn = `<button onclick="sellItem(${index})">Vendi (${item.val}g)</button>`;
+
+            div.innerHTML = `<span>${item.name}</span> <div>${actionBtn}${sellBtn}</div>`;
+            list.appendChild(div);
         });
     }
 
-    function start() {
-        write("Ti trovi all'ingresso di una locanda dimenticata dalle mappe. Il fumo esce pigro dal camino di pietra. Non ricordi come sei arrivato qui, ma il freddo ti spinge a entrare.");
-        setActions([
-            { label: "Entra nella Locanda", fn: enterTavern },
-            { label: "Esamina i dintorni", fn: lookAround }
-        ]);
+    function equipItem(index) {
+        const item = player.inventory[index];
+        // Rimuovi da inventario
+        player.inventory.splice(index, 1);
+
+        // Se c'è già qualcosa equipaggiato, rimettilo nello zaino
+        if(item.type === 'weapon' && player.equipment.weapon) {
+            player.inventory.push(player.equipment.weapon);
+        }
+        if(item.type === 'armor' && player.equipment.armor) {
+            player.inventory.push(player.equipment.armor);
+        }
+
+        // Equipaggia
+        if(item.type === 'weapon') player.equipment.weapon = item;
+        if(item.type === 'armor') player.equipment.armor = item;
+
+        log(`Hai equipaggiato: ${item.name}`, "log-info");
+        renderInventory(); // Aggiorna lista
+        updateUI(); // Aggiorna stats (nome arma)
     }
 
-    function enterTavern() {
-        write("<br><b>La porta cigola.</b> All'interno, poche candele illuminano i tavoli di legno massiccio. L'oste ti osserva pulendo un boccale sporco.");
-        document.getElementById('p-name').innerText = "Gualtiero";
-        setActions([
-            { label: "Parla con l'Oste", fn: talkHost },
-            { label: "Siediti al tavolo", fn: sitDown }
-        ]);
+    function sellItem(index) {
+        const item = player.inventory[index];
+        player.gold += item.val;
+        player.inventory.splice(index, 1);
+        renderInventory();
+        updateUI();
+        log(`Hai venduto ${item.name} per ${item.val} oro.`);
     }
 
-    function lookAround() {
-        write("<br>C'è un vecchio avviso logoro sul muro esterno: <i>'Cercasi eroi per la miniera d'argento'</i>.");
-    }
-
-    function talkHost() {
-        write("<br>L'Oste dice: 'Benvenuto all'Antro. Se hai oro, ho storie da vendere.'");
-        setActions([
-            { label: "Chiedi della miniera", fn: () => write("<br>'È un posto maledetto,' risponde cupo.") },
-            { label: "Compra da bere (-2 Oro)", fn: () => {
-                p.gold -= 2;
-                document.getElementById('p-gold').innerText = p.gold;
-                write("<br>Il liquido scende bruciando. Ti senti più forte.");
-            }}
-        ]);
-    }
-
-    start();
+    // Start
+    updateUI();
 </script>
 
 </body>
