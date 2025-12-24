@@ -470,22 +470,6 @@
     }
     .quick .btnq:active{ transform: translateY(1px); }
 
-    select.sel{
-      width: 100%;
-      padding: 10px 10px;
-      border-radius: 10px;
-      border: 2px solid var(--line);
-      background: rgba(0,0,0,.22);
-      color: var(--ink);
-      font-family: var(--font-ui);
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: .6px;
-      font-size: 11px;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(0,0,0,.25) inset;
-    }
-
     @keyframes blink { 0%,100%{filter:brightness(1)} 50%{filter:brightness(1.4)} }
     @keyframes shake { 0%{transform:translateX(0)} 25%{transform:translateX(-2px)} 50%{transform:translateX(2px)} 75%{transform:translateX(-2px)} 100%{transform:translateX(0)} }
     .fx-blink{ animation: blink .3s linear 2; }
@@ -568,26 +552,6 @@
               <button class="btn primary" id="btnRollA" style="width:100%;">TIRA (A)</button>
               <button class="btn primary" id="btnRollB" style="width:100%;">TIRA (B)</button>
               <div class="hint" id="pendingHint" style="margin-top:0;">Nessun tiro richiesto.</div>
-              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
-                <div>
-                  <div class="hint" style="margin:0 0 6px;">Override Stat</div>
-                  <select class="sel" id="selStat">
-                    <option value="CORPO">CORPO</option>
-                    <option value="MENTE">MENTE</option>
-                    <option value="OMBRA" selected>OMBRA</option>
-                  </select>
-                </div>
-                <div>
-                  <div class="hint" style="margin:0 0 6px;">Override DC</div>
-                  <select class="sel" id="selDC">
-                    <option value="10">10</option>
-                    <option value="12" selected>12</option>
-                    <option value="14">14</option>
-                    <option value="16">16</option>
-                  </select>
-                </div>
-              </div>
-              <button class="btn mini" id="btnRollOverride" style="width:100%;">TIRA (OVERRIDE)</button>
             </div>
 
             <div class="kv">
@@ -734,7 +698,7 @@
     // ----------------------------
     // STATE
     // ----------------------------
-    const STORE_KEY = "ERA_CPS2_RUN_V3_NARRATIVE_2STATS";
+    const STORE_KEY = "ERA_CPS2_RUN_V4_CLEAN";
 
     const defaultState = () => ({
       session: 1,
@@ -776,8 +740,7 @@
     const rollPanel = $("#rollPanel"), rollResultPill = $("#rollResultPill"),
           rollD20 = $("#rollD20"), rollMOD = $("#rollMOD"), rollDC = $("#rollDC"), rollOUT = $("#rollOUT");
     const pendingHint = $("#pendingHint");
-    const btnRollA = $("#btnRollA"), btnRollB = $("#btnRollB"), btnRollOverride = $("#btnRollOverride");
-    const selStat = $("#selStat"), selDC = $("#selDC");
+    const btnRollA = $("#btnRollA"), btnRollB = $("#btnRollB");
 
     const pgName = $("#pgName"), pgMeta = $("#pgMeta"),
           stBody = $("#stBody"), stMind = $("#stMind"), stShade = $("#stShade");
@@ -884,10 +847,8 @@
         btnRollB.textContent = "TIRA (B)";
         btnRollA.disabled = true;
         btnRollB.disabled = true;
-        btnRollOverride.disabled = true;
         btnRollA.style.opacity = .5;
         btnRollB.style.opacity = .5;
-        btnRollOverride.style.opacity = .5;
         return;
       }
 
@@ -897,14 +858,8 @@
       btnRollB.textContent = `TIRA con ${p.statB}`;
       btnRollA.disabled = false;
       btnRollB.disabled = false;
-      btnRollOverride.disabled = false;
       btnRollA.style.opacity = 1;
       btnRollB.style.opacity = 1;
-      btnRollOverride.style.opacity = 1;
-
-      // prefill overrides
-      selStat.value = p.statA;
-      selDC.value = String(p.dc);
     }
 
     function renderRoll(){
@@ -1152,11 +1107,6 @@
     }
 
     function statsForCheck(mode){
-      // A = naturale, B = alternativa “sensata”
-      // PARLA: MENTE / OMBRA (mentire, intimidire sottile)
-      // OSSERVA: OMBRA / MENTE (intuizione, deduzione)
-      // AGISCI: CORPO / OMBRA (destrezza, furtività)
-      // RISCHIO: OMBRA / CORPO (scatto, forza disperata)
       if (mode === "PARLA") return ["MENTE","OMBRA"];
       if (mode === "OSSERVA") return ["OMBRA","MENTE"];
       if (mode === "AGISCI") return ["CORPO","OMBRA"];
@@ -1313,16 +1263,6 @@
     btnRollA.addEventListener("click", ()=> resolveWithStat(S.pendingCheck?.statA));
     btnRollB.addEventListener("click", ()=> resolveWithStat(S.pendingCheck?.statB));
 
-    btnRollOverride.addEventListener("click", ()=> {
-      if (!S.pendingCheck){
-        pushHistory("SYSTEM: nessun tiro richiesto.");
-        fxBlink(rollPanel);
-        return;
-      }
-      // override is allowed
-      resolveWithStat(selStat.value);
-    });
-
     $("#btnAdvance").addEventListener("click", ()=> sceneAdvance());
     $("#btnResetLog").addEventListener("click", ()=>{
       S.history = [];
@@ -1380,7 +1320,6 @@
         persist();
       }
       renderAll();
-      // enable roll buttons based on pending
       renderPending();
       sceneAdvance(true);
       if (!has) pushHistory("RUN: iniziata.");
